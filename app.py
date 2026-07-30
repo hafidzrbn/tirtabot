@@ -68,9 +68,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Cache RAG Engine Instance
-@st.cache_resource
-def load_rag_engine():
+# Cache RAG Engine Instance (V2 Cache Refresh)
+@st.cache_resource(show_spinner=False)
+def load_tirtabot_rag_v2():
     try:
         from rag_system import DoctorTirtaRAG
         return DoctorTirtaRAG()
@@ -78,7 +78,7 @@ def load_rag_engine():
         st.error(f"Gagal memuat RAG engine: {e}")
         return None
 
-rag_engine = load_rag_engine()
+rag_engine = load_tirtabot_rag_v2()
 
 # Sidebar Navigation
 with st.sidebar:

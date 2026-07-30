@@ -34,11 +34,24 @@ def parse_votes(v):
 
 class DoctorTirtaRAG:
     def __init__(self, data_path="processed_comments.csv"):
-        if not os.path.isabs(data_path):
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-            data_path = os.path.join(base_dir, data_path)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        possible_paths = [
+            data_path,
+            os.path.join(base_dir, os.path.basename(data_path)),
+            os.path.join(os.getcwd(), os.path.basename(data_path)),
+            os.path.join(os.path.dirname(base_dir), os.path.basename(data_path))
+        ]
+        
+        real_path = None
+        for p in possible_paths:
+            if p and os.path.exists(p):
+                real_path = p
+                break
+                
+        if not real_path:
+            raise FileNotFoundError(f"Dataset 'processed_comments.csv' tidak ditemukan di lokasi: {possible_paths}")
             
-        self.df = pd.read_csv(data_path)
+        self.df = pd.read_csv(real_path)
         self.df['text'] = self.df['text'].fillna('')
         self.df['processed_text'] = self.df['processed_text'].fillna('')
         

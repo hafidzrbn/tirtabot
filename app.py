@@ -192,6 +192,16 @@ st.markdown("""
         margin-bottom: 1rem;
         box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
+    
+    /* Seamless Bottom Container Background */
+    [data-testid="stBottom"],
+    [data-testid="stBottomBlockContainer"],
+    .stChatInputContainer,
+    footer {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 

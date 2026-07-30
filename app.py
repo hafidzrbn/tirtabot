@@ -1,71 +1,179 @@
 import os
 import json
+import base64
 import pandas as pd
 import numpy as np
 import streamlit as st
 
-# Page Configuration
+# 1. Page Configuration
 st.set_page_config(
     page_title="TirtaBot - Asisten AI Sentimen & Opini dr. Tirta",
     page_icon="🩺",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Sleek Chat Interface
-st.markdown("""
+# Helper function to load logo as base64
+def get_logo_base64():
+    logo_path = os.path.join("static", "logo-tirta.png")
+    if os.path.exists(logo_path):
+        try:
+            with open(logo_path, "rb") as f:
+                encoded = base64.b64encode(f.read()).decode("utf-8")
+                return f"data:image/png;base64,{encoded}"
+        except:
+            pass
+    return "https://img.icons8.com/color/96/medical-doctor.png"
+
+logo_b64 = get_logo_base64()
+
+# 2. Custom CSS for Modern ChatGPT-Style Design System
+st.markdown(f"""
 <style>
-    .bot-header {
-        text-align: center;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    
+    html, body, [class*="css"] {{
+        font-family: 'Poppins', sans-serif;
+    }}
+    
+    .stApp {{
+        background: linear-gradient(180deg, #F4F9FC 0%, #EAF3FB 100%);
+    }}
+    
+    /* Header Styling */
+    .chat-header-container {{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #e2e8f0;
+        border-radius: 16px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }}
+    .chat-header-avatar {{
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #0EA5B7;
+    }}
+    .chat-header-title {{
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+        line-height: 1.2;
+    }}
+    .chat-header-subtitle {{
+        font-size: 0.825rem;
+        color: #64748b;
+        margin: 0;
+    }}
+    
+    /* Sidebar Styling */
+    .sidebar-brand-container {{
+        display: flex;
+        align-items: center;
+        gap: 12px;
         padding-bottom: 1rem;
-    }
-    .bot-title {
-        font-size: 2.2rem;
+        border-bottom: 1px solid #f1f5f9;
+        margin-bottom: 1rem;
+    }}
+    .sidebar-brand-logo {{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }}
+    .sidebar-brand-title {{
+        font-size: 1.2rem;
         font-weight: 800;
-        color: #1e3a8a;
-        margin-bottom: 0.1rem;
-    }
-    .bot-subtitle {
-        font-size: 1.05rem;
-        color: #475569;
-        margin-bottom: 1.2rem;
-    }
-    .sentiment-badge-pos {
+        color: #0f172a;
+        margin: 0;
+    }}
+    
+    /* Promo Card in Sidebar */
+    .promo-card {{
+        background: linear-gradient(135deg, #0EA5B7 0%, #2E9BE6 100%);
+        color: white;
+        padding: 1.1rem;
+        border-radius: 18px;
+        margin-top: 1rem;
+        box-shadow: 0 4px 15px rgba(14, 165, 183, 0.25);
+    }}
+    .promo-card-title {{
+        font-size: 1rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }}
+    .promo-card-text {{
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }}
+    .promo-card-badge {{
+        background-color: white;
+        color: #0EA5B7;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 20px;
+        display: inline-block;
+    }}
+    
+    /* Sentiment Badges */
+    .badge-pos {{
         background-color: #d1fae5;
         color: #065f46;
-        padding: 3px 8px;
+        padding: 3px 10px;
         border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
-    .sentiment-badge-neu {
+        font-size: 0.78rem;
+        font-weight: 700;
+    }}
+    .badge-neu {{
         background-color: #e0f2fe;
         color: #075985;
-        padding: 3px 8px;
+        padding: 3px 10px;
         border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
-    .sentiment-badge-neg {
+        font-size: 0.78rem;
+        font-weight: 700;
+    }}
+    .badge-neg {{
         background-color: #fee2e2;
         color: #991b1b;
-        padding: 3px 8px;
+        padding: 3px 10px;
         border-radius: 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }}
+    
+    /* Citation Cards */
+    .citation-card {{
+        background-color: #ffffff;
+        border-left: 4px solid #0EA5B7;
+        padding: 0.85rem;
+        border-radius: 0 10px 10px 0;
+        margin-top: 0.6rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         font-size: 0.85rem;
-        font-weight: 600;
-    }
-    .citation-box {
-        background-color: #f8fafc;
-        border-left: 3px solid #3b82f6;
-        padding: 0.8rem;
-        border-radius: 6px;
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-    }
+    }}
+    
+    .sentiment-summary-box {{
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }}
 </style>
 """, unsafe_allow_html=True)
 
-# Cache RAG Engine
+# 3. Cache RAG Engine
 @st.cache_resource
 def load_rag_engine():
     try:
@@ -77,44 +185,63 @@ def load_rag_engine():
 
 rag_engine = load_rag_engine()
 
-# Sidebar: TirtaBot Info & Presets
-st.sidebar.image("https://img.icons8.com/color/96/medical-doctor.png", width=75)
-st.sidebar.title("TirtaBot 🩺")
-st.sidebar.markdown("**Asisten AI Sentimen & Opini Publik**")
-st.sidebar.markdown("Menjawab pertanyaan Anda berdasarkan analisis **24.325 komentar masyarakat** dari 10 video YouTube populer tentang dr. Tirta Mandira Hudhi.")
+# 4. Sidebar Setup
+with st.sidebar:
+    st.markdown(f"""
+    <div class="sidebar-brand-container">
+        <img src="{logo_b64}" class="sidebar-brand-logo">
+        <div class="sidebar-brand-title">TirtaBot</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("➕ Chat Baru", use_container_width=True, type="primary"):
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": "Halo! Saya **TirtaBot** 🩺. Saya adalah Asisten AI yang siap membantumu mengetahui bagaimana **kecenderungan respon, opini, serta sentimen masyarakat** terhadap dr. Tirta Mandira Hudhi dalam berbagai isu (kesehatan, bisnis sepatu lokal, kebijakan, profesi dokter, maupun personal).\n\nAda topik atau isu apa yang ingin kamu tanyakan?",
+                "citations": []
+            }
+        ]
+        st.rerun()
+        
+    st.markdown("### 📋 Template Pertanyaan")
+    
+    selected_preset = None
+    preset_options = [
+        ("🩺 Gaya Hidup Sehat & Medis", "Saran dan himbauan utama dokter Tirta tentang gaya hidup sehat diabetes dan olahraga"),
+        ("👟 Review Sepatu Lari Lokal", "Pendapat netizen tentang kualitas sepatu lari brand lokal Indonesia seperti Ortuseight dan 910"),
+        ("👨‍⚕️ Realitas Profesi Dokter", "Tanggapan netizen mengenai isu gaji dokter umum dan perjuangan tenaga medis di daerah"),
+        ("🗣️ Opini Podcast & Kebijakan", "Perdebatan pro dan kontra netizen terkait gaya bicara tegas dokter Tirta di podcast Deddy Corbuzier"),
+        ("❤️ Perubahan Sikap Demi Anak", "Respon penonton podcast PWK mengenai perubahan sikap emosi dokter Tirta yang lebih tenang demi anak")
+    ]
+    
+    for label, query in preset_options:
+        if st.button(label, use_container_width=True):
+            selected_preset = query
+            
+    st.markdown("---")
+    
+    # Bottom Promo Card
+    st.markdown("""
+    <div class="promo-card">
+        <div class="promo-card-title">TirtaBot</div>
+        <div class="promo-card-text">Asisten AI cerdas untuk mengetahui kecenderungan respon & sentimen masyarakat terhadap dr. Tirta Mandira Hudhi.</div>
+        <div class="promo-card-badge">24.325 Komentar Analisis</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.sidebar.divider()
-st.sidebar.subheader("💡 Rekomendasi Topik Pertanyaan")
-
-preset_queries = [
-    "🩺 Himbauan kesehatan & gaya hidup sehat dr Tirta",
-    "👟 Kualitas & opini sepatu lari brand lokal Indonesia",
-    "👨‍⚕️ Tanggapan isu gaji dokter & realitas medis",
-    "🗣️ Perdebatan gaya bicara tegas di podcast Deddy Corbuzier",
-    "❤️ Respon perubahan sikap dr Tirta demi anaknya di PWK"
-]
-
-selected_preset = None
-for q in preset_queries:
-    if st.sidebar.button(q, use_container_width=True):
-        selected_preset = q.split(" ", 1)[1] # Strip emoji prefix
-
-st.sidebar.divider()
-if st.sidebar.button("🗑️ Bersihkan Riwayat Chat", use_container_width=True):
-    st.session_state.messages = []
-    st.rerun()
-
-st.sidebar.caption("UAS Trending Topics on Statistics © 2026")
-
-# Header Section
-st.markdown("""
-<div class="bot-header">
-    <div class="bot-title">🩺 TirtaBot</div>
-    <div class="bot-subtitle">Asisten AI Intelijen Sentimen & Opini Masyarakat terhadap <b>dr. Tirta Mandira Hudhi</b></div>
+# 5. Main Area Header
+st.markdown(f"""
+<div class="chat-header-container">
+    <img src="{logo_b64}" class="chat-header-avatar">
+    <div>
+        <div class="chat-header-title">Halo! Saya TirtaBot 👋</div>
+        <div class="chat-header-subtitle">Asisten AI Sentimen & Opini Publik dr. Tirta</div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Initialize Session State Messages
+# 6. Initialize Session State Messages
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {
@@ -124,35 +251,58 @@ if "messages" not in st.session_state:
         }
     ]
 
-# Display Existing Chat History
+# 7. Render Existing Chat Messages
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"], avatar="👨‍⚕️" if msg["role"] == "assistant" else "👤"):
         st.markdown(msg["content"])
+        
         if msg.get("citations"):
-            with st.expander("📚 Lihat Rujukan Dokumen & Sitasi Komentar (5 Referensi)"):
+            with st.expander(f"📚 Lihat Rujukan Dokumen & Sitasi Komentar ({len(msg['citations'])} Referensi)"):
                 for idx, src in enumerate(msg["citations"], 1):
                     sent = src.get('sentiment', 'Netral')
-                    badge_class = "sentiment-badge-pos" if sent == "Positif" else ("sentiment-badge-neg" if sent == "Negatif" else "sentiment-badge-neu")
+                    badge_cls = "badge-pos" if sent == "Positif" else ("badge-neg" if sent == "Negatif" else "badge-neu")
                     
                     st.markdown(f"""
-                    <div class="citation-box">
-                        <b>[{idx}] {src['author']}</b> <span class="{badge_class}">{sent}</span> (👍 {src['votes']} likes)<br>
-                        <i>"{src['text']}"</i><br>
-                        <small>🔗 Sumber Video: <a href="{src['video_url']}" target="_blank">{src['video_url']}</a> (ID: {src['video_id']}) | Skor Relevansi: {src['score']:.4f}</small>
+                    <div class="citation-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <b>[{idx}] {src.get('author', 'Anonim')}</b>
+                            <span class="{badge_cls}">{sent}</span>
+                        </div>
+                        <p style="margin: 4px 0; color: #334155; font-style: italic;">"{src.get('text', '')}"</p>
+                        <div style="font-size: 0.75rem; color: #94a3b8; display:flex; justify-content:space-between; margin-top: 4px;">
+                            <span>👍 {src.get('votes', 0)} likes | Skor Relevansi: {src.get('score', 0):.4f}</span>
+                            <a href="{src.get('video_url', '#')}" target="_blank" style="color: #0EA5B7; font-weight: 600; text-decoration: none;">🔗 Lihat Video</a>
+                        </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-# Handle Input Query (from User Typing or Sidebar Preset Button)
-prompt_input = st.chat_input("Tanyakan isu/topik tentang dr. Tirta di sini...")
-prompt = selected_preset if selected_preset else prompt_input
+# 8. Quick Action Recommendation Pills
+st.markdown("**💡 Rekomendasi Topik Cepat:**")
+col1, col2, col3, col4, col5 = st.columns(5)
+
+pill_selected = None
+if col1.button("🩺 Gaya Hidup Sehat", use_container_width=True):
+    pill_selected = "Himbauan kesehatan & gaya hidup sehat diabetes dr Tirta"
+if col2.button("👟 Sepatu Lari Lokal", use_container_width=True):
+    pill_selected = "Kualitas & opini sepatu lari brand lokal Indonesia"
+if col3.button("👨‍⚕️ Gaji & Medis", use_container_width=True):
+    pill_selected = "Tanggapan isu gaji dokter umum & realitas tenaga medis"
+if col4.button("🗣️ Opini Podcast", use_container_width=True):
+    pill_selected = "Perdebatan gaya bicara tegas dokter Tirta di podcast Deddy Corbuzier"
+if col5.button("❤️ Sikap Demi Anak", use_container_width=True):
+    pill_selected = "Respon penonton podcast PWK perubahan sikap dr Tirta demi anak"
+
+# 9. Handle User Query Submission
+user_input = st.chat_input("Tanyakan isu/topik tentang dr. Tirta di sini...")
+prompt = selected_preset or pill_selected or user_input
 
 if prompt:
-    # 1. Append User Message
+    # Append & render User message
     st.session_state.messages.append({"role": "user", "content": prompt, "citations": []})
     with st.chat_message("user", avatar="👤"):
         st.markdown(prompt)
         
-    # 2. Generate Assistant Response via RAG
+    # Generate Assistant response
     with st.chat_message("assistant", avatar="👨‍⚕️"):
         with st.spinner("TirtaBot sedang menganalisis sentimen & mencari rujukan dokumen..."):
             if rag_engine is not None:
@@ -163,31 +313,47 @@ if prompt:
                 neu_pct = int((sent_counts.get("Netral", 0) / total_s) * 100)
                 neg_pct = int((sent_counts.get("Negatif", 0) / total_s) * 100)
                 
-                # Format Response Content
-                response_text = f"### 📊 Kecenderungan Sentimen & Opini Publik\n"
-                response_text += f"* **Positif**: {pos_pct}% | **Netral**: {neu_pct}% | **Negatif**: {neg_pct}%\n\n"
-                response_text += f"---\n\n"
-                response_text += answer_summary
+                # Sentiment Breakdown Container
+                st.markdown(f"""
+                <div class="sentiment-summary-box">
+                    <div style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+                        Distribusi Sentimen Rujukan ({len(sources)} Komentar Relevan)
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <span class="badge-pos">Positif: {pos_pct}%</span>
+                        <span class="badge-neu">Netral: {neu_pct}%</span>
+                        <span class="badge-neg">Negatif: {neg_pct}%</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
                 
-                st.markdown(response_text)
+                # Main Groq AI Answer Output
+                st.markdown(answer_summary)
                 
+                # Expandable Citations
                 if sources:
-                    with st.expander("📚 Lihat Rujukan Dokumen & Sitasi Komentar (5 Referensi)"):
+                    with st.expander(f"📚 Lihat Rujukan Dokumen & Sitasi Komentar ({len(sources)} Referensi)"):
                         for idx, src in enumerate(sources, 1):
                             sent = src.get('sentiment', 'Netral')
-                            badge_class = "sentiment-badge-pos" if sent == "Positif" else ("sentiment-badge-neg" if sent == "Negatif" else "sentiment-badge-neu")
+                            badge_cls = "badge-pos" if sent == "Positif" else ("badge-neg" if sent == "Negatif" else "badge-neu")
                             
                             st.markdown(f"""
-                            <div class="citation-box">
-                                <b>[{idx}] {src['author']}</b> <span class="{badge_class}">{sent}</span> (👍 {src['votes']} likes)<br>
-                                <i>"{src['text']}"</i><br>
-                                <small>🔗 Sumber Video: <a href="{src['video_url']}" target="_blank">{src['video_url']}</a> (ID: {src['video_id']}) | Skor Relevansi: {src['score']:.4f}</small>
+                            <div class="citation-card">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <b>[{idx}] {src.get('author', 'Anonim')}</b>
+                                    <span class="{badge_cls}">{sent}</span>
+                                </div>
+                                <p style="margin: 4px 0; color: #334155; font-style: italic;">"{src.get('text', '')}"</p>
+                                <div style="font-size: 0.75rem; color: #94a3b8; display:flex; justify-content:space-between; margin-top: 4px;">
+                                    <span>👍 {src.get('votes', 0)} likes | Skor Relevansi: {src.get('score', 0):.4f}</span>
+                                    <a href="{src.get('video_url', '#')}" target="_blank" style="color: #0EA5B7; font-weight: 600; text-decoration: none;">🔗 Lihat Video</a>
+                                </div>
                             </div>
                             """, unsafe_allow_html=True)
                             
                 st.session_state.messages.append({
                     "role": "assistant",
-                    "content": response_text,
+                    "content": answer_summary,
                     "citations": sources
                 })
             else:

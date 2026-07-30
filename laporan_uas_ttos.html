@@ -274,7 +274,12 @@
 <li><code>sehat selalu dokter</code> (412 kali)</li>
 <li><code>terima kasih dokter</code> (385 kali)</li>
 <li><code>sepatu lari lokal</code> (290 kali)</li>
-<li><code>podcast dokter tirta</code> (275 kali)</li>
+<li>
+<p><code>podcast dokter tirta</code> (275 kali)</p>
+</li>
+<li>
+<p><strong>Visualisasi N-Gram</strong>: Grafik batang (<code>output_plots/barchart_ngrams.png</code>) menampilkan distribusi frekuensi top 10 Bigram dan Trigram secara komparatif.</p>
+</li>
 </ul>
 <h3>3.3 Matriks TF-IDF (<em>Term Frequency - Inverse Document Frequency</em>)</h3>
 <p>Term dengan nilai skor rata-rata TF-IDF tertinggi menunjukkan kata-kata kunci utama yang unik di setiap dokumen:
@@ -283,11 +288,13 @@
 - <code>sehat</code> (TF-IDF Mean: 0.0588)
 - <code>podcast</code> (TF-IDF Mean: 0.0541)
 - <code>edukasi</code> (TF-IDF Mean: 0.0498)</p>
+<ul>
+<li><strong>Visualisasi TF-IDF</strong>: Grafik batang (<code>output_plots/tfidf_top_features.png</code>) memvisualisasikan fitur kata dengan bobot penting tertinggi.</li>
+</ul>
 <h3>3.4 Visualisasi Data Teks</h3>
 <p>Visualisasi lengkap telah dibuat dan disimpan pada folder <code>output_plots/</code>:
-* <strong>Word Cloud Keseluruhan</strong>: Menampilkan dominasi kata <code>dokter</code>, <code>tirta</code>, <code>sehat</code>, <code>edukasi</code>, <code>sepatu</code>, dan <code>keren</code>.
-* <strong>Bar Chart N-Gram</strong>: Grafik batang perbandingan top 10 Bigram dan Trigram.
-* <strong>Co-occurrence Network Graph</strong>: Visualisasi jaringan hubungan kata yang menunjukkan kluster erat antara kata <code>dokter</code> $\rightarrow$ <code>tirta</code>, <code>sepatu</code> $\rightarrow$ <code>lokal</code>, dan <code>hidup</code> $\rightarrow$ <code>sehat</code>.</p>
+* <strong>Word Cloud Keseluruhan</strong>: Menampilkan dominasi kata <code>dokter</code>, <code>tirta</code>, <code>sehat</code>, <code>edukasi</code>, <code>sepatu</code>, dan <code>keren</code> (<code>output_plots/wordcloud_overall.png</code>).
+* <strong>Co-occurrence Network Graph</strong>: Visualisasi jaringan hubungan kata yang menunjukkan kluster erat antara kata <code>dokter</code> $\rightarrow$ <code>tirta</code>, <code>sepatu</code> $\rightarrow$ <code>lokal</code>, dan <code>hidup</code> $\rightarrow$ <code>sehat</code> (<code>output_plots/co_occurrence_network.png</code>).</p>
 <hr />
 <h1>4. Implementasi Model Artificial Intelligence</h1>
 <p>Untuk menyelesaikan permasalahan klasifikasi sentimen pada data teks (Soal No. 4), dilakukan perbandingan 3 arsitektur model AI:</p>

@@ -119,6 +119,8 @@ Total vokabular unik yang berhasil diekstrak adalah **191.729 kata**. Sepuluh ka
   - `sepatu lari lokal` (290 kali)
   - `podcast dokter tirta` (275 kali)
 
+* **Visualisasi N-Gram**: Grafik batang (`output_plots/barchart_ngrams.png`) menampilkan distribusi frekuensi top 10 Bigram dan Trigram secara komparatif.
+
 ### 3.3 Matriks TF-IDF (*Term Frequency - Inverse Document Frequency*)
 Term dengan nilai skor rata-rata TF-IDF tertinggi menunjukkan kata-kata kunci utama yang unik di setiap dokumen:
 - `dokter tirta` (TF-IDF Mean: 0.0845)
@@ -127,11 +129,12 @@ Term dengan nilai skor rata-rata TF-IDF tertinggi menunjukkan kata-kata kunci ut
 - `podcast` (TF-IDF Mean: 0.0541)
 - `edukasi` (TF-IDF Mean: 0.0498)
 
+* **Visualisasi TF-IDF**: Grafik batang (`output_plots/tfidf_top_features.png`) memvisualisasikan fitur kata dengan bobot penting tertinggi.
+
 ### 3.4 Visualisasi Data Teks
 Visualisasi lengkap telah dibuat dan disimpan pada folder `output_plots/`:
-* **Word Cloud Keseluruhan**: Menampilkan dominasi kata `dokter`, `tirta`, `sehat`, `edukasi`, `sepatu`, dan `keren`.
-* **Bar Chart N-Gram**: Grafik batang perbandingan top 10 Bigram dan Trigram.
-* **Co-occurrence Network Graph**: Visualisasi jaringan hubungan kata yang menunjukkan kluster erat antara kata `dokter` $\rightarrow$ `tirta`, `sepatu` $\rightarrow$ `lokal`, dan `hidup` $\rightarrow$ `sehat`.
+* **Word Cloud Keseluruhan**: Menampilkan dominasi kata `dokter`, `tirta`, `sehat`, `edukasi`, `sepatu`, dan `keren` (`output_plots/wordcloud_overall.png`).
+* **Co-occurrence Network Graph**: Visualisasi jaringan hubungan kata yang menunjukkan kluster erat antara kata `dokter` $\rightarrow$ `tirta`, `sepatu` $\rightarrow$ `lokal`, dan `hidup` $\rightarrow$ `sehat` (`output_plots/co_occurrence_network.png`).
 
 ---
 

@@ -329,14 +329,15 @@ def build_word_document():
     add_h2("3.2 Analisis N-Gram (Bigram & Trigram)")
     add_p("• Top Bigram: dokter tirta (3.892 kali), dokter gia (1.420 kali), hidup sehat (980 kali), sepatu lari (850 kali), sehat selalu (740 kali).")
     add_p("• Top Trigram: sehat selalu dokter (412 kali), terima kasih dokter (385 kali), sepatu lari lokal (290 kali), podcast dokter tirta (275 kali).")
+    add_img("output_plots/barchart_ngrams.png", "Gambar 3.2 Grafik Batang Distribusi Top Bigram dan Trigram")
 
     add_h2("3.3 Matriks TF-IDF (Term Frequency - Inverse Document Frequency)")
     add_p("Term dengan nilai skor rata-rata TF-IDF tertinggi menunjukkan kata-kata kunci utama yang unik di setiap dokumen: dokter tirta (0.0845), sepatu (0.0612), sehat (0.0588), podcast (0.0541), edukasi (0.0498).")
+    add_img("output_plots/tfidf_top_features.png", "Gambar 3.3 Visualisasi Top TF-IDF Features")
 
     add_h2("3.4 Visualisasi Data Teks")
+    add_p("Visualisasi pendukung seperti Word Cloud dan Jaringan Hubungan Kata (Co-occurrence Network Graph) menggambarkan peta topik secara komprehensif:")
     add_img("output_plots/wordcloud_overall.png", "Gambar 3.1 Word Cloud Keseluruhan Komentar masyarakat terhadap dr. Tirta")
-    add_img("output_plots/barchart_ngrams.png", "Gambar 3.2 Grafik Batang Distribusi Top Bigram dan Trigram")
-    add_img("output_plots/tfidf_top_features.png", "Gambar 3.3 Visualisasi Top TF-IDF Features")
     add_img("output_plots/co_occurrence_network.png", "Gambar 3.4 Jaringan Hubungan Kata (Co-occurrence Network Graph)")
 
     # =========================================================

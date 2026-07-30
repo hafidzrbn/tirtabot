@@ -23,7 +23,7 @@ Sistem ini mengekstrak dan menganalisis **24.325 komentar publik YouTube** dari 
 
 ---
 
-## 📁 Struktur Berkas Utama (*Clean Code Repository*)
+## 📁 Struktur Berkas Utama
 
 Repositori ini telah dirapikan secara khusus dan berfokus pada **6 berkas Python paling krusial** yang mendukung seluruh alur analisis:
 
@@ -38,7 +38,7 @@ Repositori ini telah dirapikan secara khusus dan berfokus pada **6 berkas Python
 
 ---
 
-## 📊 Ringkasan Hasil Evaluasi Model AI (Soal No. 4)
+## 📊 Ringkasan Hasil Evaluasi Model AI
 
 Pengujian dilakukan dengan pembagian dataset 80% Data Latih (Train = 17.584) dan 20% Data Uji (Test = 4.396):
 

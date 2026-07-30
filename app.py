@@ -299,7 +299,7 @@ for msg in st.session_state.messages:
                     """, unsafe_allow_html=True)
 
 # 8. Quick Action Recommendation Pills
-st.markdown('<div style="font-size: 0.95rem; font-weight: 800; color: #0EA5B7; margin-bottom: 8px; font-family: \'Poppins\', sans-serif;">💡 Rekomendasi Topik Cepat:</div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 8px; font-family: \'Poppins\', sans-serif;">💡 Rekomendasi Topik Cepat:</div>', unsafe_allow_html=True)
 col1, col2, col3, col4, col5 = st.columns(5)
 
 pill_selected = None

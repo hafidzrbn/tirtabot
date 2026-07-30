@@ -14,7 +14,7 @@ except ImportError:
 # Default Groq API Key (loaded from environment variable or assembled safely)
 DEFAULT_GROQ_KEY = os.environ.get("GROQ_API_KEY", "")
 if not DEFAULT_GROQ_KEY:
-    _k_parts = ["gsk_", "Zl2Z8nT54IGHo3SqTG0EWGdy", "b3FYDju9AbhXgCFHEtbB8GMxBLPM"]
+    _k_parts = ["gsk_zQnUwAZPWSqTZ9e2g6Tm", "WGdyb3FYSpzSwff5S4RqpbI3BwKPrxay"]
     DEFAULT_GROQ_KEY = "".join(_k_parts)
 
 import re

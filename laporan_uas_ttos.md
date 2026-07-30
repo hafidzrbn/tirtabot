@@ -93,18 +93,15 @@ Berikut adalah 5 contoh sampel perubahan nyata data komentar sebelum dan sesudah
 # 3. Eksplorasi Data Teks (*Exploratory Text Analysis*)
 
 ### 3.1 Frekuensi Kata Utama
-Total vokabular unik yang berhasil diekstrak adalah **191.729 kata**. Sepuluh kata yang paling sering muncul dalam seluruh dataset komentar:
+Total vokabular unik yang berhasil diekstrak adalah **191.729 kata**. Berikut adalah 10 kata yang paling sering muncul dalam seluruh dataset komentar:
 
-1. **`dokter`**: 10.462 kali
-2. **`tirta`**: 4.368 kali
-3. **`banget`**: 2.792 kali
-4. **`yg` / `yang`**: 2.593 kali
-5. **`saya`**: 2.413 kali
-6. **`gia`**: 1.996 kali (merujuk pada dr. Gia Pratama di kolaborasi podcast)
-7. **`kalau`**: 1.742 kali
-8. **`sama`**: 1.683 kali
-9. **`tapi`**: 1.572 kali
-10. **`sehat`**: 1.485 kali
+| No | Kata Utama | Frekuensi | No | Kata Utama | Frekuensi |
+| :---: | :--- | :---: | :---: | :--- | :---: |
+| 1 | `dokter` | 10.462 kali | 6 | `gia` | 1.996 kali |
+| 2 | `tirta` | 4.368 kali | 7 | `kalau` | 1.742 kali |
+| 3 | `banget` | 2.792 kali | 8 | `sama` | 1.683 kali |
+| 4 | `yg` / `yang` | 2.593 kali | 9 | `tapi` | 1.572 kali |
+| 5 | `saya` | 2.413 kali | 10 | `sehat` | 1.485 kali |
 
 ### 3.2 Analisis N-Gram (Bigram & Trigram)
 * **Top Bigram**:

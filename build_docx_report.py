@@ -322,9 +322,45 @@ def build_word_document():
     add_h1("BAB III. EKSPLORASI DATA TEKS (EXPLORATORY TEXT ANALYSIS)")
     
     add_h2("3.1 Frekuensi Kata Utama")
-    add_p("Total vokabular unik yang berhasil diekstrak adalah 191.729 kata. Sepuluh kata yang paling sering muncul dalam seluruh dataset komentar:")
-    add_p("1. dokter (10.462 kali) | 2. tirta (4.368 kali) | 3. banget (2.792 kali) | 4. yang (2.593 kali) | 5. saya (2.413 kali)")
-    add_p("6. gia (1.996 kali) | 7. kalau (1.742 kali) | 8. sama (1.683 kali) | 9. tapi (1.572 kali) | 10. sehat (1.485 kali)")
+    t3_data = [
+        ["No", "Kata Utama", "Frekuensi", "No", "Kata Utama", "Frekuensi"],
+        ["1", "dokter", "10.462 kali", "6", "gia", "1.996 kali"],
+        ["2", "tirta", "4.368 kali", "7", "kalau", "1.742 kali"],
+        ["3", "banget", "2.792 kali", "8", "sama", "1.683 kali"],
+        ["4", "yg / yang", "2.593 kali", "9", "tapi", "1.572 kali"],
+        ["5", "saya", "2.413 kali", "10", "sehat", "1.485 kali"]
+    ]
+
+    table3 = doc.add_table(rows=len(t3_data), cols=6)
+    table3.alignment = WD_TABLE_ALIGNMENT.CENTER
+    set_table_borders(table3)
+    col_widths3 = [Inches(0.4), Inches(1.8), Inches(1.0), Inches(0.4), Inches(1.8), Inches(1.0)]
+
+    for r_idx, row in enumerate(t3_data):
+        for c_idx, val in enumerate(row):
+            cell = table3.cell(r_idx, c_idx)
+            cell.width = col_widths3[c_idx]
+            set_cell_margins(cell, top=60, bottom=60, left=80, right=80)
+            p = cell.paragraphs[0]
+            p.paragraph_format.space_after = Pt(2)
+            p.paragraph_format.space_before = Pt(2)
+            
+            if r_idx == 0:
+                set_cell_background(cell, "0EA5B7")
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run(val)
+                run.bold = True
+                run.font.name = 'Nunito'
+                run.font.size = Pt(9)
+                run.font.color.rgb = RGBColor(255, 255, 255)
+            else:
+                set_cell_background(cell, "FFFFFF" if r_idx % 2 == 1 else "F8FAFC")
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER if c_idx in [0, 2, 3, 5] else WD_ALIGN_PARAGRAPH.LEFT
+                run = p.add_run(val)
+                run.font.name = 'Nunito'
+                run.font.size = Pt(9)
+                
+    add_p("", space_after=6)
 
     add_h2("3.2 Analisis N-Gram (Bigram & Trigram)")
     add_p("• Top Bigram: dokter tirta (3.892 kali), dokter gia (1.420 kali), hidup sehat (980 kali), sepatu lari (850 kali), sehat selalu (740 kali).")

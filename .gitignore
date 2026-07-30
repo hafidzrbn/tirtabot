@@ -1,11 +1,20 @@
+# Python & Environment
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 .env
-.venv/
-env/
 venv/
-history.json
-.DS_Store
+env/
+
+# Data & Model Indexes
+*.csv
+*.json
+*.docx
+*.html
+output_plots/
 faiss_index/
-*.pdf
-youtube_comments_dr_tirta.json
+.tempmediaStorage/
+
+# Operating System
+.DS_Store
+Thumbs.db

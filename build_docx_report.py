@@ -536,13 +536,25 @@ def build_word_document():
     print("Building Chapter 7...")
     add_h1("BAB VII. PENYUSUNAN DOKUMEN & INFORMASI LUARAN")
 
-    add_h2("7.1 Informasi Tautan Prototipe Publik (TirtaBot)")
-    add_p("Aplikasi web interaktif telah dibangun penuh sebagai Modern Single-Page Application (SPA) bergaya ChatGPT bernama TirtaBot yang berfokus melayani pertanyaan pengguna seputar kecenderungan respon, opini, dan sentimen masyarakat terhadap dr. Tirta dalam berbagai konteks:")
-    add_p("• Teknologi Frontend: HTML5 Semantik + Tailwind CSS + Lucide Icons + Chart.js (Native JS).")
+    add_h2("7.1 Aplikasi TirtaBot")
+    add_p("Aplikasi web interaktif telah dibangun penuh sebagai Modern Single-Page Application (SPA) bergaya ChatGPT bernama TirtaBot yang berfokus melayani pertanyaan pengguna seputar kecenderungan respon, opini, dan sentimen masyarakat terhadap dr. Tirta Mandira Hudhi dalam berbagai konteks:")
     add_p("• Teknologi Backend: Python FastAPI + FAISS Vector DB + Groq LLM API (llama-3.3-70b-versatile).")
     add_p("• Repository GitHub: https://github.com/hafidzrbn/tirtabot")
     add_p("• Platform Hosting: Streamlit Community Cloud / Render.com")
     add_p("• Link Prototipe Web Chatbot: https://tirtabot.streamlit.app")
+    add_p("", space_after=4)
+
+    # Image 7.1 & Interpretation
+    add_img("output_plots/tirtabot_app_ui.png", "Gambar 7.1 Tampilan Antarmuka Beranda Aplikasi TirtaBot (Modern Dark Mode 3-Kolom)")
+    add_p("Interpretasi Gambar 7.1:", bold=True, space_before=4, space_after=2)
+    add_p("Gambar 7.1 menampilkan antarmuka utama (landing page) dari prototipe chatbot interaktif TirtaBot. Antarmuka ini dirancang dengan tata letak Modern Dark Mode 3-Kolom yang intuitif. Di sebelah kiri terdapat panel navigasi sidebar yang memuat logo TirtaBot, tombol '+ Chat Baru', informasi basis pengetahuan (24.325 komentar terkaji), serta Template Pertanyaan cepat. Pada area utama, sistem menyambut pengguna dengan salam interaktif dan menyajikan 5 tombol rekomendasi topik cepat (Quick-Action Pill Buttons) yang mencakup: Gaya Hidup Sehat, Sepatu Lari Lokal, Gaji & Medis, Opini Podcast, dan Sikap Demi Anak. Fitur ini mempermudah pengguna untuk memulai eksplorasi tanpa harus mengetik pertanyaan dari awal.")
+    add_p("", space_after=8)
+
+    # Image 7.2 & Interpretation
+    add_img("output_plots/tirtabot_chat_session.png", "Gambar 7.2 Tampilan Sesi Percakapan Interaktif dan Distribusi Sentimen Rujukan pada TirtaBot")
+    add_p("Interpretasi Gambar 7.2:", bold=True, space_before=4, space_after=2)
+    add_p("Gambar 7.2 memvisualisasikan hasil respons interaktif sistem setelah pengguna mengajukan pertanyaan mengenai 'Himbauan kesehatan & gaya hidup sehat diabetes dr. Tirta'. Pada bagian atas respons, TirtaBot secara transparan menyajikan indikator Distribusi Sentimen Rujukan berbasis 50 komentar relevan yang ditarik secara dinamis dari FAISS Vector Database (terdiri dari Positif: 68%, Netral: 14%, dan Negatif: 18%). Selanjutnya, mesin sintesis Groq LLM API (llama-3.3-70b-versatile) menghasilkan rangkuman opini publik secara terstruktur yang mencakup: Sentimen Umum, Pesan Utama, Kategori Komentar Positif, Kategori Komentar Negatif, serta Kesimpulan Akhir. Hal ini membuktikan bahwa TirtaBot mampu memberikan jawaban faktual berbasis data opini publik tanpa terjadinya manipulasi atau fakta palsu (hallucination).")
+    add_p("", space_after=10)
 
     add_h2("7.2 Kelengkapan 5 Item Luaran UAS")
     add_p("1. 💻 Source Code: scrape_comments.py, eda_preprocessing.py, text_exploration.py, ai_modeling.py, rag_system.py, server.py, app.py, index.html.")

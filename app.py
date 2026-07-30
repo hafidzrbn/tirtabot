@@ -41,59 +41,81 @@ st.markdown(f"""
     }}
     
     /* Header Styling */
-    .chat-header-container {{
+    .chat-header-container {
         display: flex;
         align-items: center;
         gap: 12px;
-        background-color: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(8px);
+        background-color: #ffffff;
         padding: 1rem 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         margin-bottom: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-    }}
-    .chat-header-avatar {{
+        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .chat-header-avatar {
         width: 46px;
         height: 46px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid #0EA5B7;
-    }}
-    .chat-header-title {{
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #0f172a;
+    }
+    .chat-header-title {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #0EA5B7 !important;
         margin: 0;
         line-height: 1.2;
-    }}
-    .chat-header-subtitle {{
+    }
+    .chat-header-subtitle {
         font-size: 0.825rem;
-        color: #64748b;
+        color: #475569 !important;
         margin: 0;
-    }}
+    }
     
     /* Sidebar Styling */
-    .sidebar-brand-container {{
+    .sidebar-brand-container {
         display: flex;
         align-items: center;
         gap: 12px;
         padding-bottom: 1rem;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid #e2e8f0;
         margin-bottom: 1rem;
-    }}
-    .sidebar-brand-logo {{
-        width: 40px;
-        height: 40px;
+    }
+    .sidebar-brand-logo {
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         object-fit: cover;
-    }}
-    .sidebar-brand-title {{
-        font-size: 1.2rem;
+        border: 2px solid #0EA5B7;
+    }
+    .sidebar-brand-title {
+        font-size: 1.4rem;
         font-weight: 800;
-        color: #0f172a;
+        color: #0EA5B7 !important;
         margin: 0;
-    }}
+        letter-spacing: -0.02em;
+    }
+    
+    /* Force High Contrast Readable Chat Message Cards */
+    [data-testid="stChatMessage"] {
+        background-color: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 16px !important;
+        color: #0f172a !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+        padding: 1rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    [data-testid="stChatMessage"] p, 
+    [data-testid="stChatMessage"] div, 
+    [data-testid="stChatMessage"] span,
+    [data-testid="stChatMessage"] li,
+    [data-testid="stChatMessage"] h1,
+    [data-testid="stChatMessage"] h2,
+    [data-testid="stChatMessage"] h3,
+    [data-testid="stChatMessage"] h4 {
+        color: #0f172a !important;
+    }
     
     /* Promo Card in Sidebar */
     .promo-card {{

@@ -28,17 +28,17 @@ def get_logo_base64():
 logo_b64 = get_logo_base64()
 
 # 2. Custom CSS for Modern ChatGPT-Style Design System
-st.markdown(f"""
+st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
     
-    html, body, [class*="css"] {{
+    html, body, [class*="css"] {
         font-family: 'Poppins', sans-serif;
-    }}
+    }
     
-    .stApp {{
+    .stApp {
         background: linear-gradient(180deg, #F4F9FC 0%, #EAF3FB 100%);
-    }}
+    }
     
     /* Header Styling */
     .chat-header-container {
@@ -118,26 +118,26 @@ st.markdown(f"""
     }
     
     /* Promo Card in Sidebar */
-    .promo-card {{
+    .promo-card {
         background: linear-gradient(135deg, #0EA5B7 0%, #2E9BE6 100%);
         color: white;
         padding: 1.1rem;
         border-radius: 18px;
         margin-top: 1rem;
         box-shadow: 0 4px 15px rgba(14, 165, 183, 0.25);
-    }}
-    .promo-card-title {{
+    }
+    .promo-card-title {
         font-size: 1rem;
         font-weight: 800;
         margin-bottom: 4px;
-    }}
-    .promo-card-text {{
+    }
+    .promo-card-text {
         font-size: 0.75rem;
         color: rgba(255, 255, 255, 0.9);
         line-height: 1.4;
         margin-bottom: 8px;
-    }}
-    .promo-card-badge {{
+    }
+    .promo-card-badge {
         background-color: white;
         color: #0EA5B7;
         font-size: 0.7rem;
@@ -145,36 +145,36 @@ st.markdown(f"""
         padding: 4px 10px;
         border-radius: 20px;
         display: inline-block;
-    }}
+    }
     
     /* Sentiment Badges */
-    .badge-pos {{
+    .badge-pos {
         background-color: #d1fae5;
         color: #065f46;
         padding: 3px 10px;
         border-radius: 12px;
         font-size: 0.78rem;
         font-weight: 700;
-    }}
-    .badge-neu {{
+    }
+    .badge-neu {
         background-color: #e0f2fe;
         color: #075985;
         padding: 3px 10px;
         border-radius: 12px;
         font-size: 0.78rem;
         font-weight: 700;
-    }}
-    .badge-neg {{
+    }
+    .badge-neg {
         background-color: #fee2e2;
         color: #991b1b;
         padding: 3px 10px;
         border-radius: 12px;
         font-size: 0.78rem;
         font-weight: 700;
-    }}
+    }
     
     /* Citation Cards */
-    .citation-card {{
+    .citation-card {
         background-color: #ffffff;
         border-left: 4px solid #0EA5B7;
         padding: 0.85rem;
@@ -182,16 +182,16 @@ st.markdown(f"""
         margin-top: 0.6rem;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         font-size: 0.85rem;
-    }}
+    }
     
-    .sentiment-summary-box {{
+    .sentiment-summary-box {
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 14px;
         padding: 1rem;
         margin-bottom: 1rem;
         box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-    }}
+    }
 </style>
 """, unsafe_allow_html=True)
 

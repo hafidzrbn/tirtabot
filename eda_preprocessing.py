@@ -89,3 +89,4 @@ if __name__ == "__main__":
     df_clean = df[df['processed_text'].str.strip() != ''].copy()
     df_clean.to_csv("processed_comments.csv", index=False, encoding="utf-8-sig")
     print(f"Preprocessing complete. Total valid rows: {len(df_clean):,}")
+

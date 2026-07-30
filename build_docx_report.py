@@ -555,8 +555,14 @@ def build_word_document():
     add_p("Laporan disusun komprehensif untuk memenuhi seluruh syarat Ujian Akhir Semester TToS Juli 2026.", align=WD_ALIGN_PARAGRAPH.CENTER, italic=True)
 
     output_filename = "23611091_Muhammad Hafidz Rabbaanii Sulthon_UAS_TToS.docx"
-    doc.save(output_filename)
-    print(f"Document successfully created and saved as '{output_filename}'!")
+    try:
+        doc.save(output_filename)
+        print(f"Document successfully created and saved as '{output_filename}'!")
+    except PermissionError:
+        print(f"Warning: '{output_filename}' is currently open in Microsoft Word. Saving copy...")
+        output_filename = "23611091_Muhammad Hafidz Rabbaanii Sulthon_UAS_TToS_Updated.docx"
+        doc.save(output_filename)
+        print(f"Document saved as '{output_filename}'!")
 
 if __name__ == "__main__":
     build_word_document()

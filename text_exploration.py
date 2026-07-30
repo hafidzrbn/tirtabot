@@ -112,24 +112,37 @@ def main():
     plt.savefig('output_plots/tfidf_top_features.png', dpi=300)
     plt.close()
     
-    # 7. VISUALIZATION 4: Co-occurrence Network Graph
+    # 7. VISUALIZATION 4: Co-occurrence Network Graph (Enhanced High-Visibility Edges)
     print("Generating Co-occurrence Network Graph...")
     # Get top 20 bigrams to construct network graph
     G = nx.Graph()
-    for bigram, count in top_bigrams[:25]:
+    for bigram, count in top_bigrams[:20]:
         words = bigram.split()
         if len(words) == 2:
             G.add_edge(words[0], words[1], weight=count)
             
-    plt.figure(figsize=(12, 9))
-    pos = nx.spring_layout(G, k=0.5, seed=42)
-    weights = [G[u][v]['weight'] / max([d['weight'] for u, v, d in G.edges(data=True)]) * 5 for u, v in G.edges()]
+    plt.figure(figsize=(14, 10))
+    pos = nx.spring_layout(G, k=0.8, seed=42)
     
-    nx.draw_networkx_nodes(G, pos, node_size=2200, node_color='#1f77b4', alpha=0.85)
-    nx.draw_networkx_edges(G, pos, width=weights, edge_color='#888888', alpha=0.6)
-    nx.draw_networkx_labels(G, pos, font_size=11, font_color='white', font_weight='bold')
+    max_weight = max([d['weight'] for u, v, d in G.edges(data=True)]) if G.edges() else 1
+    # Line width scaled between 2.0 and 8.0 for high visibility
+    edge_widths = [2.0 + (G[u][v]['weight'] / max_weight) * 6.0 for u, v in G.edges()]
+    node_sizes = [1500 + G.degree(n) * 700 for n in G.nodes()]
     
-    plt.title('Co-occurrence Network Graph (Jaringan Asosiasi Kata)', fontsize=15, fontweight='bold')
+    # Draw thick vibrant cyan/teal edges
+    nx.draw_networkx_edges(G, pos, width=edge_widths, edge_color='#0EA5B7', alpha=0.85)
+    
+    # Draw nodes
+    nx.draw_networkx_nodes(G, pos, node_size=node_sizes, node_color='#1E293B', alpha=0.95, edgecolors='#0EA5B7', linewidths=2.5)
+    
+    # Draw node labels
+    nx.draw_networkx_labels(G, pos, font_size=11, font_color='white', font_family='sans-serif', font_weight='bold')
+    
+    # Draw edge weight labels (numerical connection strengths)
+    edge_labels = {(u, v): f"{d['weight']}" for u, v, d in G.edges(data=True)}
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=9, font_color='#0284c7', font_weight='bold', bbox=dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor='#e2e8f0', alpha=0.9))
+    
+    plt.title('Co-occurrence Network Graph (Jaringan Asosiasi & Hubungan Kata)', fontsize=16, fontweight='bold', pad=20)
     plt.axis('off')
     plt.tight_layout()
     plt.savefig('output_plots/co_occurrence_network.png', dpi=300)

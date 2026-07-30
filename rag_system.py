@@ -34,6 +34,10 @@ def parse_votes(v):
 
 class DoctorTirtaRAG:
     def __init__(self, data_path="processed_comments.csv"):
+        if not os.path.isabs(data_path):
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            data_path = os.path.join(base_dir, data_path)
+            
         self.df = pd.read_csv(data_path)
         self.df['text'] = self.df['text'].fillna('')
         self.df['processed_text'] = self.df['processed_text'].fillna('')

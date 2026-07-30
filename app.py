@@ -1,9 +1,15 @@
 import os
+import sys
 import json
 import base64
 import pandas as pd
 import numpy as np
 import streamlit as st
+
+# Ensure root directory is always on sys.path for Streamlit Cloud
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
 st.set_page_config(
     page_title="TirtaBot - Asisten AI Sentimen & Opini dr. Tirta",
@@ -68,17 +74,21 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Cache RAG Engine Instance (V2 Cache Refresh)
+# Cache RAG Engine Instance (V3 Cache Refresh)
 @st.cache_resource(show_spinner=False)
-def load_tirtabot_rag_v2():
+def load_tirtabot_rag_v3():
     try:
-        from rag_system import DoctorTirtaRAG
-        return DoctorTirtaRAG()
+        import sys
+        if BASE_DIR not in sys.path:
+            sys.path.insert(0, BASE_DIR)
+        import rag_system
+        return rag_system.DoctorTirtaRAG()
     except Exception as e:
-        st.error(f"Gagal memuat RAG engine: {e}")
+        import traceback
+        st.error(f"Gagal memuat RAG engine: {e}\n\n{traceback.format_exc()}")
         return None
 
-rag_engine = load_tirtabot_rag_v2()
+rag_engine = load_tirtabot_rag_v3()
 
 # Sidebar Navigation
 with st.sidebar:

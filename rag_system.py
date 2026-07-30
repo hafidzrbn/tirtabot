@@ -8,9 +8,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 try:
     from groq import Groq
-except ImportError:
-    os.system("pip install groq")
-    from groq import Groq
+except Exception:
+    try:
+        import sys
+        os.system(f"{sys.executable} -m pip install groq")
+        from groq import Groq
+    except Exception:
+        Groq = None
 
 # Groq API Key (loaded from environment variable or assembled safely)
 DEFAULT_GROQ_KEY = os.environ.get("GROQ_API_KEY", "")

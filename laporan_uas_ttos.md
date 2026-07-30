@@ -221,9 +221,9 @@ Proses prapemrosesan dengan **Normalisasi Slang** dan **Penanganan Negasi** terb
 
 ### 6.2 Performa Model AI
 Pemodelan AI komparatif membuktikan keunggulan arsitektur Transformer:
-- **Logistic Regression**: F1-Score 83.68% (Cepat, ramah komputasi, cocok untuk *baseline*).
-- **SVM**: F1-Score 88.22% (Sangat baik pada fitur TF-IDF sparse).
-- **IndoBERT**: F1-Score **94.25%** (Terbaik dalam menangkap nuansa emosi dan kontekstual slang Bahasa Indonesia).
+- **Logistic Regression**: F1-Score **74,55%** (Cepat, ramah komputasi, cocok untuk *baseline*).
+- **SVM**: F1-Score **74,70%** (Sangat baik pada fitur TF-IDF sparse).
+- **IndoBERT**: F1-Score **94,25%** (Terbaik dalam menangkap nuansa emosi dan kontekstual slang Bahasa Indonesia).
 
 ### 6.3 Kualitas Sistem RAG
 Pengujian pada 5 pertanyaan wajib membuktikan bahwa penggabungan FAISS Vector Store dengan `sentence-transformers` sanggup mengembalikan rujukan yang **100% akurat** disertai sitasi transparan (URL & Author), sehingga mencegah terjadinya fakta palsu (*hallucination*).

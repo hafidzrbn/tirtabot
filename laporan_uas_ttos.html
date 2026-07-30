@@ -408,9 +408,9 @@
 <p>Proses prapemrosesan dengan <strong>Normalisasi Slang</strong> dan <strong>Penanganan Negasi</strong> terbukti meningkatkan kualitas tokenisasi sebesar 22,4%. Ekstraksi N-gram dan TF-IDF berhasil menangkap tema mendominasi: edukasi kesehatan, sepatu lokal, dan dinamika opini publik.</p>
 <h3>6.2 Performa Model AI</h3>
 <p>Pemodelan AI komparatif membuktikan keunggulan arsitektur Transformer:
-- <strong>Logistic Regression</strong>: F1-Score 83.68% (Cepat, ramah komputasi, cocok untuk <em>baseline</em>).
-- <strong>SVM</strong>: F1-Score 88.22% (Sangat baik pada fitur TF-IDF sparse).
-- <strong>IndoBERT</strong>: F1-Score <strong>94.25%</strong> (Terbaik dalam menangkap nuansa emosi dan kontekstual slang Bahasa Indonesia).</p>
+- <strong>Logistic Regression</strong>: F1-Score <strong>74,55%</strong> (Cepat, ramah komputasi, cocok untuk <em>baseline</em>).
+- <strong>SVM</strong>: F1-Score <strong>74,70%</strong> (Sangat baik pada fitur TF-IDF sparse).
+- <strong>IndoBERT</strong>: F1-Score <strong>94,25%</strong> (Terbaik dalam menangkap nuansa emosi dan kontekstual slang Bahasa Indonesia).</p>
 <h3>6.3 Kualitas Sistem RAG</h3>
 <p>Pengujian pada 5 pertanyaan wajib membuktikan bahwa penggabungan FAISS Vector Store dengan <code>sentence-transformers</code> sanggup mengembalikan rujukan yang <strong>100% akurat</strong> disertai sitasi transparan (URL &amp; Author), sehingga mencegah terjadinya fakta palsu (<em>hallucination</em>).</p>
 <h3>6.4 Kelebihan dan Keterbatasan Pendekatan</h3>

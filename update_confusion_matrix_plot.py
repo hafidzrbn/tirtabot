@@ -61,7 +61,7 @@ plt.ylabel('True Label', fontweight='bold', fontsize=10)
 
 plt.subplot(1, 3, 3)
 sns.heatmap(cm_bert, annot=True, fmt='d', cmap='Purples', xticklabels=labels_order, yticklabels=labels_order, cbar=False, annot_kws={"size": 11, "weight": "bold"})
-plt.title('IndoBERT Transformer (SOTA)\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
+plt.title('IndoBERT Transformer\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
 plt.xlabel('Predicted Label', fontweight='bold', fontsize=10)
 plt.ylabel('True Label', fontweight='bold', fontsize=10)
 

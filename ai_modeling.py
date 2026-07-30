@@ -177,7 +177,7 @@ def main():
         [  48,   45, 1408]
     ])
     sns.heatmap(cm_bert, annot=True, fmt='d', cmap='Purples', xticklabels=labels_order, yticklabels=labels_order, cbar=False, ax=axes[2], annot_kws={"size": 11, "weight": "bold"})
-    axes[2].set_title('IndoBERT Transformer (SOTA)\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
+    axes[2].set_title('IndoBERT Transformer\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
     axes[2].set_xlabel('Predicted Label', fontweight='bold', fontsize=10)
     axes[2].set_ylabel('True Label', fontweight='bold', fontsize=10)
     

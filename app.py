@@ -341,9 +341,9 @@ if prompt:
                 answer_summary, sources, sent_counts = rag_engine.generate_rag_response(prompt)
                 
                 total_s = len(sources) if len(sources) > 0 else 1
-                pos_pct = int((sent_counts.get("Positif", 0) / total_s) * 100)
-                neu_pct = int((sent_counts.get("Netral", 0) / total_s) * 100)
-                neg_pct = int((sent_counts.get("Negatif", 0) / total_s) * 100)
+                pos_pct = round((sent_counts.get("Positif", 0) / total_s) * 100)
+                neu_pct = round((sent_counts.get("Netral", 0) / total_s) * 100)
+                neg_pct = max(0, 100 - pos_pct - neu_pct)
                 
                 # Sentiment Breakdown Container
                 st.markdown(f"""

@@ -159,11 +159,25 @@ class DoctorTirtaRAG:
                     max_tokens=600
                 )
                 ai_summary = response.choices[0].message.content.strip()
+                
+                # Strict Deterministic Regex Alignment for Sentiment Percentages in Text Output
+                import re
+                ai_summary = re.sub(r'(Sentimen\s+Positif[^\(\n]*\()\d+%\)', r'\g<1>' + str(pos_pct) + '%', ai_summary, flags=re.IGNORECASE)
+                ai_summary = re.sub(r'(Sentimen\s+Netral[^\(\n]*\()\d+%\)', r'\g<1>' + str(net_pct) + '%', ai_summary, flags=re.IGNORECASE)
+                ai_summary = re.sub(r'(Sentimen\s+Negatif[^\(\n]*\()\d+%\)', r'\g<1>' + str(neg_pct) + '%', ai_summary, flags=re.IGNORECASE)
+                
+                ai_summary = re.sub(r'(Komentar\s+Positif[^\(\n]*\()\d+%\)', r'\g<1>' + str(pos_pct) + '%', ai_summary, flags=re.IGNORECASE)
+                ai_summary = re.sub(r'(Komentar\s+Netral[^\(\n]*\()\d+%\)', r'\g<1>' + str(net_pct) + '%', ai_summary, flags=re.IGNORECASE)
+                ai_summary = re.sub(r'(Komentar\s+Negatif[^\(\n]*\()\d+%\)', r'\g<1>' + str(neg_pct) + '%', ai_summary, flags=re.IGNORECASE)
+
+                ai_summary = re.sub(r'Positif\s+\(\d+%\)', f'Positif ({pos_pct}%)', ai_summary, flags=re.IGNORECASE)
+                ai_summary = re.sub(r'Netral\s+\(\d+%\)', f'Netral ({net_pct}%)', ai_summary, flags=re.IGNORECASE)
+                ai_summary = re.sub(r'Negatif\s+\(\d+%\)', f'Negatif ({neg_pct}%)', ai_summary, flags=re.IGNORECASE)
             except Exception as e:
                 print(f"Groq API call error: {e}. Fallback to template.")
-                ai_summary = f"Berdasarkan analisis {len(relevant_sources)} komentar masyarakat yang relevan, publik cenderung memberikan respon bernada {max(sent_counts, key=sent_counts.get)}."
+                ai_summary = f"Berdasarkan analisis {len(relevant_sources)} komentar masyarakat yang relevan, publik cenderung memberikan respon bernada {max(sent_counts, key=sent_counts.get)} (Positif {pos_pct}%, Netral {net_pct}%, Negatif {neg_pct}%)."
         else:
-            ai_summary = f"Berdasarkan analisis {len(relevant_sources)} komentar masyarakat yang relevan, diperoleh temuan kecenderungan opini sebagai berikut."
+            ai_summary = f"Berdasarkan analisis {len(relevant_sources)} komentar masyarakat yang relevan, diperoleh temuan kecenderungan opini sebagai berikut (Positif {pos_pct}%, Netral {net_pct}%, Negatif {neg_pct}%)."
 
         return ai_summary, relevant_sources, sent_counts
 

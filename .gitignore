@@ -8,6 +8,7 @@ env/
 
 # Data & Model Indexes
 *.csv
+!processed_comments.csv
 *.json
 *.docx
 *.html

@@ -11,6 +11,7 @@ env/
 *.json
 *.docx
 *.html
+*.zip
 output_plots/
 faiss_index/
 .tempmediaStorage/

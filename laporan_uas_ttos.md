@@ -150,6 +150,8 @@ Dataset berukuran 21.980 komentar preprocessed diklasifikasikan secara mendalam 
 * **Negatif**: **7.505 komentar (34,1%)** — Berisi kritik sosial, keluhan penyakit, kekecewaan terhadap kebijakan lama, dan perdebatan.
 * **Netral**: **4.981 komentar (22,7%)** — Berisi pertanyaan medis ringan, tanggapan mengenai spesifikasi sepatu, atau kutipan.
 
+* **Visualisasi Sentimen**: Grafik pie/bar (`output_plots/sentiment_distribution.png`) memvisualisasikan proporsi distribusi sentimen hasil pelabelan IndoBERT Transformer.
+
 ### 4.3 Evaluasi Performa Model Klasifikasi (Benchmarking Table)
 Pengujian dilakukan dengan pembagian data *80% Data Latih (Train = 17.584)* dan *20% Data Uji (Test = 4.396)*:
 

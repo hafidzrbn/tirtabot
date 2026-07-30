@@ -393,6 +393,7 @@ def build_word_document():
     add_p("• Positif: 9.494 komentar (43,2%) — Didominasi oleh apresiasi edukasi kesehatan, pujian terhadap kejujuran dr. Tirta, dan dukungan produk lokal.")
     add_p("• Negatif: 7.505 komentar (34,1%) — Berisi kritik sosial, keluhan penyakit, kekecewaan terhadap kebijakan lama, dan perdebatan.")
     add_p("• Netral: 4.981 komentar (22,7%) — Berisi pertanyaan medis ringan, tanggapan mengenai spesifikasi sepatu, atau kutipan.")
+    add_img("output_plots/sentiment_distribution.png", "Gambar 4.1 Distribusi Sentimen Komentar dengan Model IndoBERT Transformer")
 
     add_h2("4.3 Evaluasi Performa Model Klasifikasi (Benchmarking Table)")
     add_p("Pengujian dilakukan dengan pembagian data 80% Data Latih (Train = 17.584) dan 20% Data Uji (Test = 4.396):")
@@ -442,7 +443,6 @@ def build_word_document():
     add_p("• SVM menunjukkan peningkatan signifikan (+4.33% F1-Score) berkat kemampuannya menemukan hyperplane optimal pada ruang dimensi tinggi TF-IDF.")
     add_p("• IndoBERT Transformer mencatatkan performa tertinggi (F1-Score 94.25%) karena memiliki mekanisme self-attention yang memahami kontekstual tata bahasa Indonesia secara dwiarah (bidirectional).")
 
-    add_img("output_plots/sentiment_distribution.png", "Gambar 4.1 Distribusi Sentimen IndoBERT Transformer pada 21.980 Komentar")
     add_img("output_plots/confusion_matrix_comparison.png", "Gambar 4.2 Perbandingan Confusion Matrix Model AI Klasifikasi Sentimen")
 
     # =========================================================
@@ -555,14 +555,8 @@ def build_word_document():
     add_p("Laporan disusun komprehensif untuk memenuhi seluruh syarat Ujian Akhir Semester TToS Juli 2026.", align=WD_ALIGN_PARAGRAPH.CENTER, italic=True)
 
     output_filename = "23611091_Muhammad Hafidz Rabbaanii Sulthon_UAS_TToS.docx"
-    try:
-        doc.save(output_filename)
-        print(f"Document successfully created and saved as '{output_filename}'!")
-    except PermissionError:
-        print(f"Warning: '{output_filename}' is currently open in Microsoft Word. Saving copy...")
-        output_filename = "23611091_Muhammad Hafidz Rabbaanii Sulthon_UAS_TToS_Updated.docx"
-        doc.save(output_filename)
-        print(f"Document saved as '{output_filename}'!")
+    doc.save(output_filename)
+    print(f"Document successfully created and saved as '{output_filename}'!")
 
 if __name__ == "__main__":
     build_word_document()

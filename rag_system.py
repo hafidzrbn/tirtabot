@@ -108,10 +108,15 @@ class DoctorTirtaRAG:
             return "Maaf, tidak ditemukan komentar yang relevan di dalam database.", [], {"Positif": 0, "Netral": 0, "Negatif": 0}
 
         # 2. Calculate Sentiment Breakdown over ALL retrieved relevant comments
+        total_retrieved = len(relevant_sources)
         sent_counts = {"Positif": 0, "Netral": 0, "Negatif": 0}
         for s in relevant_sources:
             sent = s.get('sentiment', 'Netral')
             sent_counts[sent] = sent_counts.get(sent, 0) + 1
+            
+        pos_pct = round((sent_counts["Positif"] / total_retrieved) * 100) if total_retrieved > 0 else 0
+        net_pct = round((sent_counts["Netral"] / total_retrieved) * 100) if total_retrieved > 0 else 0
+        neg_pct = max(0, 100 - pos_pct - net_pct) if total_retrieved > 0 else 0
             
         # 3. Synthesize Intelligent Summary using Groq API (Llama 3.3 70B)
         top_context_comments = relevant_sources[:15] # Send top 15 relevant snippets to LLM
@@ -120,12 +125,26 @@ class DoctorTirtaRAG:
         system_prompt = (
             "Anda adalah TirtaBot 🩺, Asisten AI cerdas dan ramah yang menganalisis opini serta sentimen publik "
             "terhadap dr. Tirta Mandira Hudhi.\n"
-            "Tugas Anda: Jawablah pertanyaan pengguna secara cerdas, naratif, mengalir, dan informatif DENGAN HANYA "
-            "BERDASARKAN data komentar rujukan yang diberikan berikut ini. JANGAN berhalusinasi atau menambah fakta di luar rujukan.\n"
+            "Tugas Anda: Jawablah pertanyaan pengguna secara cerdas, naratif, mengalir, dan informatif BERDASARKAN "
+            "data komentar rujukan yang diberikan.\n"
+            "PERHATIAN PENTING TENTANG SENTIMEN:\n"
+            f"Persentase distribusi sentimen resmi dari seluruh {total_retrieved} komentar rujukan yang ditarik adalah:\n"
+            f"- Positif: {pos_pct}%\n"
+            f"- Netral: {net_pct}%\n"
+            f"- Negatif: {neg_pct}%\n"
+            "Jika Anda menyebutkan persentase sentimen dalam teks jawaban Anda, Anda WAJIB MENGGUNAKAN PERSENTASE DI ATAS "
+            "SECARA PERSIS. DILARANG KERAS MEMBUAT, MENGHITUNG, ATAU MENGIRA-NGIRA PERSENTASE SENTIMEN LAIN.\n"
             "Gunakan Bahasa Indonesia yang komunikatif, profesional, dan mudah dipahami."
         )
         
-        user_prompt = f"Pertanyaan Pengguna: \"{query}\"\n\nTotal Komentar Relevan Ditemukan: {len(relevant_sources)} komentar.\n\nKutipan Komentar Rujukan:\n{snippets_text}\n\nBerikan rangkuman analisis opini publik yang komprehensif:"
+        user_prompt = (
+            f"Pertanyaan Pengguna: \"{query}\"\n\n"
+            f"Total Komentar Relevan Ditemukan: {total_retrieved} komentar.\n"
+            f"Distribusi Sentimen Resmi: Positif ({pos_pct}%), Netral ({net_pct}%), Negatif ({neg_pct}%).\n\n"
+            f"Kutipan Komentar Rujukan:\n{snippets_text}\n\n"
+            f"Berikan rangkuman analisis opini publik yang komprehensif. Pastikan jika Anda menuliskan persentase sentimen "
+            f"pada poin jawaban, gunakan persentase resmi (Positif {pos_pct}%, Netral {net_pct}%, Negatif {neg_pct}%):"
+        )
         
         ai_summary = ""
         if self.groq_client:

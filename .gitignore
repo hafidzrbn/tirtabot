@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+env/
+venv/
+history.json
+.DS_Store
+faiss_index/
+*.pdf
+youtube_comments_dr_tirta.json

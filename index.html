@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TirtaBot - Asisten AI Sentimen & Opini dr. Tirta</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#0EA5B7',
+                            blue: '#2E9BE6',
+                            dark: '#1E1E2D',
+                            muted: '#8B8B9A',
+                            bg: '#F4F9FC',
+                            card: '#EAF3FB'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .chat-bg {
+            background: linear-gradient(180deg, #F4F9FC 0%, #EAF3FB 100%);
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #0EA5B7 0%, #2E9BE6 100%);
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 font-sans antialiased overflow-hidden">
+
+    <!-- App Main Layout (3 Columns Full Height) -->
+    <div class="flex h-full w-full overflow-hidden">
+        
+        <!-- ========================================================= -->
+        <!-- 1. SIDEBAR KIRI (260px) -->
+        <!-- ========================================================= -->
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 z-30 transition-all duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0">
+            <!-- Top Section -->
+            <div class="p-4 space-y-4">
+                <!-- Branding Header -->
+                <div class="flex items-center space-x-3">
+                    <img src="/static/logo-tirta.png" alt="Doctor Tirta Logo" class="w-10 h-10 rounded-full object-cover shadow-sm border border-slate-100" onerror="this.src='https://img.icons8.com/color/96/medical-doctor.png'">
+                    <div>
+                        <h1 class="font-bold text-lg text-slate-900 tracking-tight leading-tight">TirtaBot</h1>
+                    </div>
+                </div>
+
+                <!-- New Chat Button -->
+                <button onclick="resetChatWindow()" class="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl border-2 border-brand-blue/30 text-brand-blue font-semibold hover:bg-brand-blue/5 transition-all shadow-sm">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Chat Baru</span>
+                </button>
+
+                <!-- Nav Menu -->
+                <div class="space-y-1 pt-2">
+                    <div class="px-3 py-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Template Pertanyaan</div>
+                    
+                    <button onclick="sendPresetQuery('Saran dan himbauan utama dokter Tirta tentang gaya hidup sehat diabetes dan olahraga')" class="w-full text-left flex items-center space-x-2.5 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all">
+                        <i data-lucide="heart-pulse" class="w-4 h-4 text-red-500"></i>
+                        <span class="truncate">Gaya Hidup Sehat & Medis</span>
+                    </button>
+                    
+                    <button onclick="sendPresetQuery('Pendapat netizen tentang kualitas sepatu lari brand lokal Indonesia seperti Ortuseight dan 910')" class="w-full text-left flex items-center space-x-2.5 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all">
+                        <i data-lucide="footprints" class="w-4 h-4 text-amber-500"></i>
+                        <span class="truncate">Review Sepatu Lari Lokal</span>
+                    </button>
+                    
+                    <button onclick="sendPresetQuery('Tanggapan netizen mengenai isu gaji dokter umum dan perjuangan tenaga medis di daerah')" class="w-full text-left flex items-center space-x-2.5 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all">
+                        <i data-lucide="stethoscope" class="w-4 h-4 text-blue-500"></i>
+                        <span class="truncate">Realitas Profesi Dokter</span>
+                    </button>
+                    
+                    <button onclick="sendPresetQuery('Perdebatan pro dan kontra netizen terkait gaya bicara tegas dokter Tirta di podcast Deddy Corbuzier')" class="w-full text-left flex items-center space-x-2.5 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all">
+                        <i data-lucide="mic" class="w-4 h-4 text-purple-500"></i>
+                        <span class="truncate">Opini Podcast & Kebijakan</span>
+                    </button>
+                    
+                    <button onclick="sendPresetQuery('Respon penonton podcast PWK mengenai perubahan sikap emosi dokter Tirta yang lebih tenang demi anak')" class="w-full text-left flex items-center space-x-2.5 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all">
+                        <i data-lucide="smile" class="w-4 h-4 text-emerald-500"></i>
+                        <span class="truncate">Perubahan Sikap Demi Anak</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bottom Promotion Card -->
+            <div class="p-4">
+                <div class="brand-gradient text-white p-4 rounded-2xl shadow-md space-y-2 relative overflow-hidden">
+                    <div class="flex items-center justify-between">
+                        <span class="font-extrabold text-base tracking-wide">TirtaBot</span>
+                    </div>
+                    <p class="text-xs text-white/90 leading-relaxed">
+                        Asisten AI cerdas untuk mengetahui kecenderungan respon & sentimen masyarakat terhadap dr. Tirta Mandira Hudhi.
+                    </p>
+                    <div class="pt-1">
+                        <span class="bg-white text-brand-teal text-[11px] font-bold px-2.5 py-1 rounded-full inline-block shadow-sm">
+                            24.325 Komentar Analisis
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ========================================================= -->
+        <!-- 2. AREA CHAT UTAMA (Middle, Flexible Width) -->
+        <!-- ========================================================= -->
+        <main class="flex-1 flex flex-col h-full min-w-0 chat-bg relative">
+            
+            <!-- Chat Header Bar -->
+            <header class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-6 flex items-center justify-between shrink-0 z-10">
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleSidebar()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                    <div>
+                        <h2 class="font-bold text-base text-slate-900">Halo! Saya TirtaBot 👋</h2>
+                        <p class="text-xs text-slate-500">Asisten AI Sentimen & Opini Publik dr. Tirta</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="shareChat()" class="px-3 py-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 flex items-center space-x-1.5">
+                        <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                        <span>Bagikan</span>
+                    </button>
+                    <button onclick="toggleHistoryPanel()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                        <i data-lucide="history" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Messages Feed -->
+            <div id="chatFeed" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+                <!-- Initial Welcome AI Message -->
+                <div class="flex items-start space-x-3.5 max-w-3xl">
+                    <div class="w-9 h-9 rounded-full brand-gradient text-white flex items-center justify-center shrink-0 shadow-sm font-bold text-sm">
+                        👨‍⚕️
+                    </div>
+                    <div class="space-y-2 text-slate-800 text-sm leading-relaxed">
+                        <div class="font-semibold text-slate-900 text-sm">TirtaBot</div>
+                        <p>
+                            Halo! Saya <b>TirtaBot</b> 👋. Saya adalah Asisten AI yang siap membantumu mengetahui bagaimana <b>kecenderungan respon, opini, serta sentimen masyarakat</b> terhadap dr. Tirta Mandira Hudhi dalam berbagai isu (kesehatan, bisnis sepatu lokal, kebijakan, profesi dokter, maupun personal).
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Silakan klik tombol topik rekomendasi di bawah atau ketikkan pertanyaanmu secara langsung!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Input Card Container -->
+            <div class="p-4 md:p-6 shrink-0 max-w-4xl mx-auto w-full">
+                <!-- Quick-action Pill Buttons -->
+                <div class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+                    <button onclick="sendPresetQuery('Himbauan kesehatan & gaya hidup sehat diabetes dr Tirta')" class="px-3.5 py-1.5 bg-white/90 border border-slate-200/80 hover:border-brand-teal text-slate-700 text-xs font-semibold rounded-full shadow-sm hover:bg-brand-teal hover:text-white transition-all shrink-0 flex items-center space-x-1.5">
+                        <span>🩺 Gaya Hidup Sehat</span>
+                    </button>
+                    <button onclick="sendPresetQuery('Kualitas & opini sepatu lari brand lokal Indonesia')" class="px-3.5 py-1.5 bg-white/90 border border-slate-200/80 hover:border-brand-teal text-slate-700 text-xs font-semibold rounded-full shadow-sm hover:bg-brand-teal hover:text-white transition-all shrink-0 flex items-center space-x-1.5">
+                        <span>👟 Sepatu Lari Lokal</span>
+                    </button>
+                    <button onclick="sendPresetQuery('Tanggapan isu gaji dokter umum & realitas tenaga medis')" class="px-3.5 py-1.5 bg-white/90 border border-slate-200/80 hover:border-brand-teal text-slate-700 text-xs font-semibold rounded-full shadow-sm hover:bg-brand-teal hover:text-white transition-all shrink-0 flex items-center space-x-1.5">
+                        <span>👨‍⚕️ Gaji & Medis</span>
+                    </button>
+                    <button onclick="sendPresetQuery('Perdebatan gaya bicara tegas dokter Tirta di podcast Deddy Corbuzier')" class="px-3.5 py-1.5 bg-white/90 border border-slate-200/80 hover:border-brand-teal text-slate-700 text-xs font-semibold rounded-full shadow-sm hover:bg-brand-teal hover:text-white transition-all shrink-0 flex items-center space-x-1.5">
+                        <span>🗣️ Opini Podcast</span>
+                    </button>
+                    <button onclick="sendPresetQuery('Respon penonton podcast PWK perubahan sikap dr Tirta demi anak')" class="px-3.5 py-1.5 bg-white/90 border border-slate-200/80 hover:border-brand-teal text-slate-700 text-xs font-semibold rounded-full shadow-sm hover:bg-brand-teal hover:text-white transition-all shrink-0 flex items-center space-x-1.5">
+                        <span>❤️ Sikap Demi Anak</span>
+                    </button>
+                </div>
+
+                <!-- Input Card -->
+                <div class="bg-white rounded-2xl p-2.5 border border-slate-200/80 shadow-lg flex items-center space-x-2">
+                    <button class="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100" title="Attachment">
+                        <i data-lucide="paperclip" class="w-5 h-5"></i>
+                    </button>
+                    <button class="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100" title="Microphone">
+                        <i data-lucide="mic" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <textarea id="promptInput" rows="1" placeholder="Tanyakan isu/topik tentang dr. Tirta di sini..." class="flex-1 bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none resize-none max-h-32 py-1.5"></textarea>
+                    
+                    <button onclick="submitUserQuery()" class="w-10 h-10 brand-gradient text-white rounded-full flex items-center justify-center shadow-md hover:opacity-95 transition-all shrink-0">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- ========================================================= -->
+        <!-- 3. PANEL RIWAYAT KANAN (300px) -->
+        <!-- ========================================================= -->
+        <aside id="historyPanel" class="w-72 bg-white border-l border-slate-200 flex flex-col justify-between shrink-0 z-30 transition-all duration-300 absolute md:relative right-0 h-full translate-x-full md:translate-x-0">
+            <div class="p-4 flex-1 flex flex-col min-h-0">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <h3 class="font-bold text-base text-slate-900 flex items-center space-x-2">
+                        <i data-lucide="history" class="w-4 h-4 text-brand-teal"></i>
+                        <span>Riwayat Chat</span>
+                    </h3>
+                    <span id="historyCountBadge" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold">0</span>
+                </div>
+
+                <!-- Scrollable History List -->
+                <div id="historyList" class="flex-1 overflow-y-auto py-3 space-y-2 min-h-0">
+                    <div class="text-center text-xs text-slate-400 py-8">Belum ada riwayat chat.</div>
+                </div>
+            </div>
+
+            <!-- Bottom Delete History Button -->
+            <div class="p-4 border-t border-slate-100">
+                <button onclick="clearAllHistory()" class="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 transition-all">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    <span>Hapus Seluruh Riwayat Chat</span>
+                </button>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- JavaScript Interactivity -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        let chartInstances = {};
+
+        // Auto-expand Textarea
+        const promptInput = document.getElementById('promptInput');
+        promptInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        promptInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitUserQuery();
+            }
+        });
+
+        // Toggle Mobile Navigation
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function toggleHistoryPanel() {
+            const historyPanel = document.getElementById('historyPanel');
+            historyPanel.classList.toggle('translate-x-full');
+        }
+
+        function resetChatWindow() {
+            const feed = document.getElementById('chatFeed');
+            feed.innerHTML = `
+                <div class="flex items-start space-x-3.5 max-w-3xl">
+                    <div class="w-9 h-9 rounded-full brand-gradient text-white flex items-center justify-center shrink-0 shadow-sm font-bold text-sm">👨‍⚕️</div>
+                    <div class="space-y-2 text-slate-800 text-sm leading-relaxed">
+                        <div class="font-semibold text-slate-900 text-sm">TirtaBot</div>
+                        <p>Sesi chat diperbarui! Silakan tanyakan isu atau topik baru tentang dr. Tirta Mandira Hudhi.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendPresetQuery(text) {
+            promptInput.value = text;
+            submitUserQuery();
+        }
+
+        async function submitUserQuery() {
+            const query = promptInput.value.trim();
+            if (!query) return;
+
+            promptInput.value = '';
+            promptInput.style.height = 'auto';
+
+            const feed = document.getElementById('chatFeed');
+
+            // 1. Append User Bubble (Rata Kanan)
+            const userMsgHtml = `
+                <div class="flex items-start justify-end space-x-3 max-w-2xl ml-auto">
+                    <div class="bg-white border border-slate-200/80 rounded-2xl rounded-tr-none p-3.5 shadow-sm text-sm text-slate-800 leading-relaxed">
+                        ${escapeHtml(query)}
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                        👤
+                    </div>
+                </div>
+            `;
+            feed.insertAdjacentHTML('beforeend', userMsgHtml);
+
+            // 2. Append Loading Indicator
+            const loadingId = 'loading_' + Date.now();
+            const loadingHtml = `
+                <div id="${loadingId}" class="flex items-start space-x-3.5 max-w-3xl">
+                    <div class="w-9 h-9 rounded-full brand-gradient text-white flex items-center justify-center shrink-0 shadow-sm font-bold text-sm">👨‍⚕️</div>
+                    <div class="flex items-center space-x-2 py-2">
+                        <div class="w-2.5 h-2.5 bg-brand-teal rounded-full animate-ping"></div>
+                        <span class="text-xs font-semibold text-slate-500">TirtaBot sedang menganalisis sentimen & mencari rujukan...</span>
+                    </div>
+                </div>
+            `;
+            feed.insertAdjacentHTML('beforeend', loadingHtml);
+            feed.scrollTop = feed.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: query })
+                });
+
+                if (!response.ok) throw new Error('Gagal memanggil API server');
+
+                const data = await response.json();
+
+                // Remove loading indicator
+                document.getElementById(loadingId)?.remove();
+
+                // 3. Render AI Response
+                renderAiResponse(data);
+                loadHistoryList();
+
+            } catch (err) {
+                document.getElementById(loadingId)?.remove();
+                const errHtml = `
+                    <div class="flex items-start space-x-3.5 max-w-3xl">
+                        <div class="w-9 h-9 rounded-full bg-red-500 text-white flex items-center justify-center shrink-0 shadow-sm font-bold text-sm">⚠️</div>
+                        <div class="text-sm text-red-600">Maaf, terjadi kesalahan saat memproses pertanyaan Anda. Silakan coba lagi.</div>
+                    </div>
+                `;
+                feed.insertAdjacentHTML('beforeend', errHtml);
+            }
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function renderAiResponse(data) {
+            const feed = document.getElementById('chatFeed');
+            const chartId = 'chart_' + Math.random().toString(36).substr(2, 9);
+            const citId = 'cit_' + Math.random().toString(36).substr(2, 9);
+
+            const pos = data.sentiment_counts?.Positif || 0;
+            const neu = data.sentiment_counts?.Netral || 0;
+            const neg = data.sentiment_counts?.Negatif || 0;
+            const total = (pos + neu + neg) || 1;
+
+            const posPct = Math.round((pos / total) * 100);
+            const neuPct = Math.round((neu / total) * 100);
+            const negPct = Math.round((neg / total) * 100);
+
+            // Sources Citations HTML
+            let citationsHtml = '';
+            if (data.sources && data.sources.length > 0) {
+                data.sources.forEach((src, idx) => {
+                    const sent = src.sentiment || 'Netral';
+                    const badgeClass = sent === 'Positif' ? 'bg-emerald-100 text-emerald-800' : (sent === 'Negatif' ? 'bg-red-100 text-red-800' : 'bg-sky-100 text-sky-800');
+                    
+                    citationsHtml += `
+                        <div class="bg-slate-50 border-l-4 border-brand-teal p-3 rounded-r-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between font-bold text-slate-800">
+                                <span>[${idx + 1}] ${escapeHtml(src.author)}</span>
+                                <span class="px-2 py-0.5 rounded-full font-semibold ${badgeClass}">${sent}</span>
+                            </div>
+                            <p class="text-slate-600 italic">"${escapeHtml(src.text)}"</p>
+                            <div class="text-[11px] text-slate-400 flex items-center justify-between pt-1">
+                                <span>👍 ${src.votes} likes | Skor Relevansi: ${src.score.toFixed(4)}</span>
+                                <a href="${src.video_url}" target="_blank" class="text-brand-blue font-semibold hover:underline">🔗 Lihat Video</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            const aiMsgHtml = `
+                <div class="flex items-start space-x-3.5 max-w-3xl">
+                    <div class="w-9 h-9 rounded-full brand-gradient text-white flex items-center justify-center shrink-0 shadow-sm font-bold text-sm">👨‍⚕️</div>
+                    <div class="space-y-4 text-slate-800 text-sm leading-relaxed w-full">
+                        <div class="font-semibold text-slate-900 text-sm flex items-center justify-between">
+                            <span>TirtaBot</span>
+                            <span class="text-[11px] font-normal text-slate-400">${data.timestamp}</span>
+                        </div>
+
+                        <!-- Sentiment Summary Box with Chart.js Donut -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div class="space-y-1 text-center md:text-left">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Distribusi Sentimen Rujukan</span>
+                                <div class="flex items-center justify-center md:justify-start space-x-2 pt-1">
+                                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">Positif: ${posPct}%</span>
+                                    <span class="px-2.5 py-1 rounded-full bg-sky-100 text-sky-800 font-bold text-xs">Netral: ${neuPct}%</span>
+                                    <span class="px-2.5 py-1 rounded-full bg-red-100 text-red-800 font-bold text-xs">Negatif: ${negPct}%</span>
+                                </div>
+                                <p class="text-[11px] text-slate-500 pt-1">Berdasarkan ${data.total_relevant} komentar masyarakat yang relevan.</p>
+                            </div>
+                            <div class="w-24 h-24 shrink-0">
+                                <canvas id="${chartId}"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Groq AI Text Response -->
+                        <div class="prose prose-sm max-w-none text-slate-800 font-normal">
+                            ${formatMarkdown(data.reply)}
+                        </div>
+
+                        <!-- Expandable Citations -->
+                        ${data.sources && data.sources.length > 0 ? `
+                            <div class="pt-2">
+                                <button onclick="toggleCitations('${citId}')" class="flex items-center space-x-1.5 text-xs font-bold text-brand-teal hover:text-brand-blue">
+                                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    <span>Lihat Rujukan Dokumen & Sitasi Komentar (${data.sources.length} Referensi)</span>
+                                </button>
+                                <div id="${citId}" class="hidden pt-3 space-y-2">
+                                    ${citationsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            feed.insertAdjacentHTML('beforeend', aiMsgHtml);
+            lucide.createIcons();
+
+            // Render Chart.js Donut Chart
+            setTimeout(() => {
+                const ctx = document.getElementById(chartId)?.getContext('2d');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Positif', 'Netral', 'Negatif'],
+                            datasets: [{
+                                data: [pos, neu, neg],
+                                backgroundColor: ['#10b981', '#0284c7', '#ef4444'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            plugins: { legend: { display: false } },
+                            cutout: '70%',
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+            }, 100);
+        }
+
+        function toggleCitations(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        // Fetch & Render History Panel
+        async function loadHistoryList() {
+            try {
+                const res = await fetch('/api/history');
+                const history = await res.json();
+                
+                const container = document.getElementById('historyList');
+                document.getElementById('historyCountBadge').innerText = history.length;
+
+                if (!history || history.length === 0) {
+                    container.innerHTML = `<div class="text-center text-xs text-slate-400 py-8">Belum ada riwayat chat.</div>`;
+                    return;
+                }
+
+                container.innerHTML = history.map(item => {
+                    const pos = item.sentiment_counts?.Positif || 0;
+                    const neg = item.sentiment_counts?.Negatif || 0;
+                    const dotColor = pos > neg ? 'bg-emerald-500' : (neg > pos ? 'bg-red-500' : 'bg-sky-500');
+
+                    return `
+                        <div onclick="loadHistoryItem('${item.id}')" class="p-2.5 rounded-xl border border-slate-100 hover:border-brand-teal/40 bg-white hover:bg-brand-bg transition-all cursor-pointer group flex items-start justify-between space-x-2">
+                            <div class="flex items-start space-x-2.5 min-w-0">
+                                <div class="mt-1 w-2 h-2 rounded-full ${dotColor} shrink-0"></div>
+                                <div class="min-w-0">
+                                    <h4 class="font-semibold text-xs text-slate-800 truncate group-hover:text-brand-blue">${escapeHtml(item.prompt)}</h4>
+                                    <p class="text-[11px] text-slate-400 truncate">${escapeHtml(item.reply.substring(0, 50))}...</p>
+                                    <span class="text-[10px] text-slate-300 block pt-0.5">${item.timestamp}</span>
+                                </div>
+                            </div>
+                            <button onclick="event.stopPropagation(); deleteHistoryItem('${item.id}')" class="text-slate-300 hover:text-red-500 p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Error loading history:", err);
+            }
+        }
+
+        async function loadHistoryItem(id) {
+            try {
+                const res = await fetch('/api/history');
+                const history = await res.json();
+                const item = history.find(h => h.id === id);
+                if (!item) return;
+
+                resetChatWindow();
+                const feed = document.getElementById('chatFeed');
+                
+                // Append User Message
+                const userMsgHtml = `
+                    <div class="flex items-start justify-end space-x-3 max-w-2xl ml-auto">
+                        <div class="bg-white border border-slate-200/80 rounded-2xl rounded-tr-none p-3.5 shadow-sm text-sm text-slate-800 leading-relaxed">
+                            ${escapeHtml(item.prompt)}
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">👤</div>
+                    </div>
+                `;
+                feed.insertAdjacentHTML('beforeend', userMsgHtml);
+                renderAiResponse(item);
+            } catch (err) {
+                console.error("Error loading item:", err);
+            }
+        }
+
+        async function clearAllHistory() {
+            if (confirm("Apakah Anda yakin ingin menghapus seluruh riwayat analisis?")) {
+                await fetch('/api/history', { method: 'DELETE' });
+                loadHistoryList();
+            }
+        }
+
+        async function deleteHistoryItem(id) {
+            await fetch(`/api/history/${id}`, { method: 'DELETE' });
+            loadHistoryList();
+        }
+
+        function shareChat() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Tautan prototipe TirtaBot berhasil disalin ke clipboard!");
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function formatMarkdown(txt) {
+            if (!txt) return '';
+            let formatted = txt
+                .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                .replace(/\*(.*?)\*/g, '<i>$1</i>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+            return formatted;
+        }
+
+        // Initial Load
+        loadHistoryList();
+    </script>
+</body>
+</html>

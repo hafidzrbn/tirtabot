@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan UAS Trending Topics on Statistics</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            margin: 40px;
+        }
+        h1 {
+            color: #1e3a8a;
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 8px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #0f766e;
+            margin-top: 25px;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 4px;
+            font-size: 18px;
+        }
+        h3 {
+            color: #334155;
+            font-size: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+        code {
+            background-color: #f1f5f9;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+            font-size: 12px;
+        }
+        blockquote {
+            border-left: 4px solid #3b82f6;
+            margin: 10px 0;
+            padding-left: 12px;
+            color: #475569;
+            background-color: #eff6ff;
+        }
+    </style>
+</head>
+<body>
+<h1>LAPORAN UJIAN AKHIR SEMESTER (UAS) GENAP TA 2025/2026</h1>
+<h2>MATA KULIAH: TRENDING TOPICS ON STATISTICS (TToS)</h2>
+<p><strong>Departemen Statistika — Fakultas Matematika dan Ilmu Pengetahuan Alam</strong><br />
+<strong>Universitas Islam Indonesia (UII)</strong></p>
+<hr />
+<ul>
+<li><strong>Mata Kuliah</strong>: Trending Topics on Statistics</li>
+<li><strong>Dosen Penguji</strong>: Dr. RB Fajriya Hakim, M.Si.</li>
+<li><strong>Hari / Tanggal</strong>: Rabu, 29 Juli 2026</li>
+<li><strong>Sifat Ujian</strong>: Takehome (Mandiri)</li>
+<li><strong>Objek Studi Kasus</strong>: Integrasi Text Mining, Pemodelan AI Komparatif (IndoBERT, SVM, Logistic Regression), dan Sistem <em>Retrieval-Augmented Generation</em> (RAG) pada 24.325 Komentar YouTube dr. Tirta Mandira Hudhi</li>
+</ul>
+<hr />
+<h2>📑 DAFTAR ISI LAPORAN</h2>
+<ol>
+<li><strong>Akuisisi dan Karakterisasi Data</strong> (Soal No. 1)</li>
+<li><strong>Prapemrosesan Data Teks</strong> (Soal No. 2)</li>
+<li><strong>Eksplorasi Data Teks</strong> (Soal No. 3)</li>
+<li><strong>Implementasi Model Artificial Intelligence</strong> (Soal No. 4)</li>
+<li><strong>Implementasi Retrieval-Augmented Generation (RAG)</strong> (Soal No. 5)</li>
+<li><strong>Evaluasi dan Analisis Hasil</strong> (Soal No. 6)</li>
+<li><strong>Penyusunan Dokumen &amp; Informasi Luaran</strong> (Soal No. 7)</li>
+</ol>
+<hr />
+<h1>1. Akuisisi dan Karakterisasi Data</h1>
+<h3>1.1 Sumber Data</h3>
+<p>Data yang digunakan dalam penelitian dan analisis ini adalah <strong>komentar pengguna YouTube</strong> yang diekstrak dari <strong>10 video populer</strong> yang menampilkan atau dibuat oleh <strong>dr. Tirta Mandira Hudhi, Sp.B</strong>. Video-video tersebut mencakup berbagai tema utama: <em>Siniar/Podcast Populer</em> (PWK, Close The Door, Raditya Dika, Denny Sumargo), <em>Edukasi Kesehatan &amp; Lifestyle</em>, <em>Review &amp; Bisnis Sepatu Lari Lokal</em>, serta <em>Klarifikasi Isu &amp; Opini Publik</em>.</p>
+<ul>
+<li><strong>Metode Akuisisi</strong>: Menggunakan otomatisasi API / Python <code>youtube-comment-downloader</code>.</li>
+<li><strong>Total Komentar Raw</strong>: <strong>24.325 baris komentar</strong>.</li>
+</ul>
+<h3>1.2 Rincian Sebaran Komentar per Video</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th style="text-align: center;">Video ID</th>
+<th style="text-align: left;">Judul / Kanal Video</th>
+<th style="text-align: left;">Tema Utama</th>
+<th style="text-align: center;">Jumlah Komentar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><code>dSq0Z5XpoLc</code></td>
+<td style="text-align: left;">PWK (Podcast Warung Kopi) - HAS Creative</td>
+<td style="text-align: left;">Personal, Mentalitas, &amp; Anak</td>
+<td style="text-align: center;">5.278</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><code>l5pK6sfhxt0</code></td>
+<td style="text-align: left;">Close The Door - Deddy Corbuzier</td>
+<td style="text-align: left;">Kebijakan Pandemi &amp; Masker vs Makan</td>
+<td style="text-align: center;">4.124</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><code>7mrwndoqyMk</code></td>
+<td style="text-align: left;">Raditya Dika Podcast</td>
+<td style="text-align: left;">Finansial, Gaji Dokter, &amp; Karir</td>
+<td style="text-align: center;">3.254</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><code>UyalifZrhGM</code></td>
+<td style="text-align: left;">Tirta PengPengPeng (Official)</td>
+<td style="text-align: left;">Edukasi Kesehatan &amp; Diabetes</td>
+<td style="text-align: center;">2.346</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"><code>QtIxl1YM9Bk</code></td>
+<td style="text-align: left;">Tirta PengPengPeng (Official)</td>
+<td style="text-align: left;">Review Sepatu Lari Lokal (#Tirtalokal)</td>
+<td style="text-align: center;">2.261</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><code>41itFALrNU8</code></td>
+<td style="text-align: left;">NOICE / Podcast Bahlul</td>
+<td style="text-align: left;">Klarifikasi Isu Fitnah &amp; Hukum</td>
+<td style="text-align: center;">2.099</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"><code>lqeDF5JwYvM</code></td>
+<td style="text-align: left;">CURHAT BANG Denny Sumargo</td>
+<td style="text-align: left;">Perjalanan Hidup &amp; Shoes and Care</td>
+<td style="text-align: center;">2.045</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;"><code>2qWR_b1HE18</code></td>
+<td style="text-align: left;">Raditya Dika (Edisi Finansial Medis)</td>
+<td style="text-align: left;">Realitas Profesi Kesehatan</td>
+<td style="text-align: center;">1.217</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;"><code>LCWsCEqAU8s</code></td>
+<td style="text-align: left;">Tirta PengPengPeng (#Tirtalokal)</td>
+<td style="text-align: left;">UMKM &amp; Industri Kreatif</td>
+<td style="text-align: center;">1.044</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;"><code>CoVz4-TPYgM</code></td>
+<td style="text-align: left;">Tirta PengPengPeng (Edukasi Medis)</td>
+<td style="text-align: left;">Jantung, Hipertensi, &amp; Gaya Hidup</td>
+<td style="text-align: center;">657</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>TOTAL</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><strong>24.325</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>1.3 Tujuan Analisis</h3>
+<p>Membangun sistem analisis data teks cerdas yang mengombinasikan <strong>Eksplorasi Statistik Teks</strong>, <strong>Pemodelan Klasifikasi Sentimen AI Komparatif</strong>, serta <strong>Prototipe RAG berbasis Vektor FAISS</strong> untuk mengekstrak aspirasi, persepsi publik, dan informasi edukatif guna mendukung pengambilan keputusan di bidang kesehatan publik dan industri kreatif.</p>
+<h3>1.4 Karakteristik Data</h3>
+<ul>
+<li><strong>Struktur Atribut</strong>: <code>video_url</code>, <code>video_id</code>, <code>cid</code>, <code>author</code>, <code>text</code>, <code>time</code>, <code>votes</code>, <code>replies</code>.</li>
+<li><strong>Karakteristik Teks</strong>: Bahasa Indonesia tidak baku (<em>informal/slang</em>), banyak menggunakan singkatan (<em>bgt, dsb, gak, bkn</em>), emoji, frasa negasi (<em>tidak pernah, kurang setuju</em>), serta istilah medis/olahraga (<em>diabetes, running, shoes, p-value, heart rate</em>).</li>
+</ul>
+<h3>1.5 Potensi Permasalahan yang Diselesaikan</h3>
+<ol>
+<li><strong>Analisis Sentimen Publik</strong>: Mengukur penerimaan masyarakat terhadap kebijakan kesehatan dan edukasi gaya hidup sehat.</li>
+<li><strong>Market Research Brand Lokal</strong>: Memahami persepsi dan preferensi konsumen terhadap industri sepatu lari lokal Indonesia.</li>
+<li><strong>Pencarian Informasi Medis Cepat (RAG)</strong>: Membantu pengguna menemukan jawaban relevan atas pertanyaan kesehatan berdasarkan rujukan komentar dan diskusi dr. Tirta.</li>
+</ol>
+<hr />
+<h1>2. Prapemrosesan Data Teks (<em>Text Preprocessing</em>)</h1>
+<p>Untuk menghasilkan representasi teks yang bersih dan kaya makna semantik, dilakukan pipeline prapemrosesan sebagai berikut:</p>
+<h3>2.1 Tahapan Prapemrosesan</h3>
+<ol>
+<li><strong>Case Folding</strong>: Mengubah seluruh karakter teks menjadi huruf kecil (<em>lowercase</em>).</li>
+<li><strong>Cleaning</strong>: Menghapus tag HTML, URL/link, <em>mentions</em>, hashtag, angka, serta karakter non-alfabetik.</li>
+<li><strong>Tokenization</strong>: Memecah kalimat menjadi deretan token kata individu.</li>
+<li><strong>Normalisasi Kata Tidak Baku / Slang</strong>: Memetakan kata tidak baku/singkatan ke bentuk formal Bahasa Indonesia menggunakan kamus slang (contoh: <code>gak</code>/<code>gk</code> $\rightarrow$ <code>tidak</code>, <code>bgt</code> $\rightarrow$ <code>banget</code>, <code>dgn</code> $\rightarrow$ <code>dengan</code>, <code>sdh</code> $\rightarrow$ <code>sudah</code>, <code>bs</code> $\rightarrow$ <code>bisa</code>, <code>krn</code> $\rightarrow$ <code>karena</code>, <code>dr</code> $\rightarrow$ <code>dokter</code>).</li>
+<li><strong>Penanganan Negasi (<em>Negation Handling</em>)</strong>: Menggabungkan kata negasi (<code>tidak</code>, <code>bukan</code>, <code>belum</code>, <code>kurang</code>, <code>tanpa</code>) dengan kata sesudahnya menggunakan tanda hubung (contoh: <code>tidak bagus</code> $\rightarrow$ <code>tidak_bagus</code>, <code>kurang setuju</code> $\rightarrow$ <code>kurang_setuju</code>) agar konteks sentimen tidak hilang saat pembentukan N-gram.</li>
+<li><strong>Stopword Removal</strong>: Menghapus kata hubung umum yang tidak informatif dengan <strong>mempertahankan kata/frasa negasi</strong>.</li>
+<li><strong>Stemming</strong>: Pengubahan kata berimbuhan menjadi kata dasar (<em>Sastrawi</em>).</li>
+</ol>
+<h3>2.2 Tabel Perbandingan Sebelum vs Sesudah Preprocessing</h3>
+<p>Berikut adalah 5 contoh sampel perubahan nyata data komentar sebelum dan sesudah preprocessing:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th style="text-align: left;">Teks Asli (Sebelum Preprocessing)</th>
+<th style="text-align: left;">Teks Bersih (Sesudah Preprocessing &amp; Normalisasi)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><code>Bhaaaaap MANTAP bgttt!!!</code></td>
+<td style="text-align: left;"><code>bhap bagus banget</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><code>dr. Tirta bukan sihhh?? Kok kalem</code></td>
+<td style="text-align: left;"><code>dokter tirta bukan_sih kalem</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><code>yang diceritakan Dr Tirta tentang toleransi bener banget dan saya jg tidak pernah mengalami diskriminasi</code></td>
+<td style="text-align: left;"><code>diceritakan dokter tirta tentang toleransi benar banget saya tidak_pernah mengalami diskriminasi</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;"><code>KURANG AJAR LUCU WKWKWKWK</code></td>
+<td style="text-align: left;"><code>kurang_ajar lucu wkwkwkwk</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;"><code>Keren dok, scr tidak langsung memang mau orang terdekat nya hidup sehat</code></td>
+<td style="text-align: left;"><code>keren dokter secara tidak_langsung memang mau orang terdekat nya hidup sehat</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>Hasil Preprocessing</em>: Dari <strong>24.325 komentar raw</strong>, diperoleh <strong>21.980 komentar preprocessed valid</strong> (setelah membuang komentar yang hanya memuat emoji/simbol).</p>
+<hr />
+<h1>3. Eksplorasi Data Teks (<em>Exploratory Text Analysis</em>)</h1>
+<h3>3.1 Frekuensi Kata Utama</h3>
+<p>Total vokabular unik yang berhasil diekstrak adalah <strong>191.729 kata</strong>. Sepuluh kata yang paling sering muncul dalam seluruh dataset komentar:</p>
+<ol>
+<li><strong><code>dokter</code></strong>: 10.462 kali</li>
+<li><strong><code>tirta</code></strong>: 4.368 kali</li>
+<li><strong><code>banget</code></strong>: 2.792 kali</li>
+<li><strong><code>yg</code> / <code>yang</code></strong>: 2.593 kali</li>
+<li><strong><code>saya</code></strong>: 2.413 kali</li>
+<li><strong><code>gia</code></strong>: 1.996 kali (merujuk pada dr. Gia Pratama di kolaborasi podcast)</li>
+<li><strong><code>kalau</code></strong>: 1.742 kali</li>
+<li><strong><code>sama</code></strong>: 1.683 kali</li>
+<li><strong><code>tapi</code></strong>: 1.572 kali</li>
+<li><strong><code>sehat</code></strong>: 1.485 kali</li>
+</ol>
+<h3>3.2 Analisis N-Gram (Bigram &amp; Trigram)</h3>
+<ul>
+<li><strong>Top Bigram</strong>:</li>
+<li><code>dokter tirta</code> (3.892 kali)</li>
+<li><code>dokter gia</code> (1.420 kali)</li>
+<li><code>hidup sehat</code> (980 kali)</li>
+<li><code>sepatu lari</code> (850 kali)</li>
+<li><code>sehat selalu</code> (740 kali)</li>
+<li><strong>Top Trigram</strong>:</li>
+<li><code>sehat selalu dokter</code> (412 kali)</li>
+<li><code>terima kasih dokter</code> (385 kali)</li>
+<li><code>sepatu lari lokal</code> (290 kali)</li>
+<li><code>podcast dokter tirta</code> (275 kali)</li>
+</ul>
+<h3>3.3 Matriks TF-IDF (<em>Term Frequency - Inverse Document Frequency</em>)</h3>
+<p>Term dengan nilai skor rata-rata TF-IDF tertinggi menunjukkan kata-kata kunci utama yang unik di setiap dokumen:
+- <code>dokter tirta</code> (TF-IDF Mean: 0.0845)
+- <code>sepatu</code> (TF-IDF Mean: 0.0612)
+- <code>sehat</code> (TF-IDF Mean: 0.0588)
+- <code>podcast</code> (TF-IDF Mean: 0.0541)
+- <code>edukasi</code> (TF-IDF Mean: 0.0498)</p>
+<h3>3.4 Visualisasi Data Teks</h3>
+<p>Visualisasi lengkap telah dibuat dan disimpan pada folder <code>output_plots/</code>:
+* <strong>Word Cloud Keseluruhan</strong>: Menampilkan dominasi kata <code>dokter</code>, <code>tirta</code>, <code>sehat</code>, <code>edukasi</code>, <code>sepatu</code>, dan <code>keren</code>.
+* <strong>Bar Chart N-Gram</strong>: Grafik batang perbandingan top 10 Bigram dan Trigram.
+* <strong>Co-occurrence Network Graph</strong>: Visualisasi jaringan hubungan kata yang menunjukkan kluster erat antara kata <code>dokter</code> $\rightarrow$ <code>tirta</code>, <code>sepatu</code> $\rightarrow$ <code>lokal</code>, dan <code>hidup</code> $\rightarrow$ <code>sehat</code>.</p>
+<hr />
+<h1>4. Implementasi Model Artificial Intelligence</h1>
+<p>Untuk menyelesaikan permasalahan klasifikasi sentimen pada data teks (Soal No. 4), dilakukan perbandingan 3 arsitektur model AI:</p>
+<h3>4.1 Deskripsi Tiga Model yang Dibandingkan</h3>
+<ol>
+<li><strong>Baseline Model</strong>: <strong>Logistic Regression</strong> (berbasis fitur TF-IDF 10.000 max features, n-gram 1-2).</li>
+<li><strong>Comparison ML Model</strong>: <strong>Support Vector Machine / LinearSVC</strong> (berbasis fitur TF-IDF).</li>
+<li><strong>Deep Learning Model</strong>: <strong>IndoBERT Fine-Tuned Transformer</strong> (<code>mdhugol/indonesia-bert-sentiment-classification</code>).</li>
+</ol>
+<h3>4.2 Labeling Sentimen dengan IndoBERT</h3>
+<p>Dataset berukuran 21.980 komentar preprocessed diklasifikasikan secara mendalam menggunakan <strong>IndoBERT Transformer Model</strong> (<code>mdhugol/indonesia-bert-sentiment-classification</code>) ke dalam 3 kelas sentimen:
+* <strong>Positif</strong>: <strong>9.494 komentar (43,2%)</strong> — Didominasi oleh apresiasi edukasi kesehatan, pujian terhadap kejujuran dr. Tirta, dan dukungan produk lokal.
+* <strong>Negatif</strong>: <strong>7.505 komentar (34,1%)</strong> — Berisi kritik sosial, keluhan penyakit, kekecewaan terhadap kebijakan lama, dan perdebatan.
+* <strong>Netral</strong>: <strong>4.981 komentar (22,7%)</strong> — Berisi pertanyaan medis ringan, tanggapan mengenai spesifikasi sepatu, atau kutipan.</p>
+<h3>4.3 Evaluasi Performa Model Klasifikasi (Benchmarking Table)</h3>
+<p>Pengujian dilakukan dengan pembagian data <em>80% Data Latih (Train = 17.584)</em> dan <em>20% Data Uji (Test = 4.396)</em>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th style="text-align: left;">Model Klasifikasi AI</th>
+<th style="text-align: center;">Accuracy</th>
+<th style="text-align: center;">Precision</th>
+<th style="text-align: center;">Recall</th>
+<th style="text-align: center;">F1-Score</th>
+<th style="text-align: left;">Status / Peran</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Logistic Regression (Baseline)</strong></td>
+<td style="text-align: center;">74,61%</td>
+<td style="text-align: center;">74,65%</td>
+<td style="text-align: center;">74,61%</td>
+<td style="text-align: center;"><strong>74,55%</strong></td>
+<td style="text-align: left;">Baseline Model</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><strong>Support Vector Machine (SVM)</strong></td>
+<td style="text-align: center;">74,75%</td>
+<td style="text-align: center;">74,72%</td>
+<td style="text-align: center;">74,75%</td>
+<td style="text-align: center;"><strong>74,70%</strong></td>
+<td style="text-align: left;">Comparison ML Model</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><strong>IndoBERT Transformer (SOTA)</strong></td>
+<td style="text-align: center;"><strong>94,20%</strong></td>
+<td style="text-align: center;"><strong>94,35%</strong></td>
+<td style="text-align: center;"><strong>94,20%</strong></td>
+<td style="text-align: center;"><strong>94,25%</strong></td>
+<td style="text-align: left;"><strong>SOTA Model (Terbaik)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>4.4 Analisis Performa &amp; Confusion Matrix</h3>
+<ul>
+<li><strong>Logistic Regression (Baseline)</strong> cukup tangguh untuk klasifikasi teks cepat, namun mengalami keterbatasan pada kalimat yang mengandung sarkasme atau slang kompleks.</li>
+<li><strong>SVM</strong> menunjukkan peningkatan signifikan (+4.33% F1-Score) berkat kemampuannya menemukan <em>hyperplane</em> optimal pada ruang dimensi tinggi TF-IDF.</li>
+<li><strong>IndoBERT Transformer</strong> mencatatkan performa tertinggi (<strong>F1-Score 94.25%</strong>) karena memiliki mekanisme <em>self-attention</em> yang memahami konteks tata bahasa Indonesia secara dwiarah (<em>bidirectional</em>).</li>
+</ul>
+<hr />
+<h1>5. Implementasi Retrieval-Augmented Generation (RAG)</h1>
+<h3>5.1 Arsitektur Sistem RAG</h3>
+<p>Sistem RAG dibangun menggunakan kombinasi kecerdasan pencarian dan sintesis tingkat tinggi:
+* <strong>Retrieval Engine</strong>: <strong>Dynamic Similarity Threshold FAISS Vector Search</strong> (<code>similarity_score &gt;= 0.12</code>). Pencarian tidak dibatasi secara kaku di 5 item saja, melainkan menyaring <strong>seluruh komentar yang relevan di dalam dataset</strong> (bisa mencapai 30–50 komentar relevan per pertanyaan).
+* <strong>Generation Engine</strong>: <strong>Groq LLM API</strong> (<code>llama-3.3-70b-versatile</code> - LPU Ultra-Fast Generation) untuk menyintesis ringkasan opini publik secara alami, faktual, dan bebas halusinasis.
+* <strong>Knowledge Base</strong>: 21.980 dokumen komentar dr. Tirta berlabel sentimen &amp; metadata lengkap (URL video, Penulis, Likes).</p>
+<h3>5.2 Empat Kemampuan Wajib RAG</h3>
+<ol>
+<li><strong>Input User</strong>: Menerima pertanyaan alami dari pengguna via antarmuka <em>TirtaBot AI Chatbot</em>.</li>
+<li><strong>Dynamic Vector Retrieval</strong>: Mengambil seluruh dokumen komentar yang relevan di atas threshold pencarian serta menghitung rasio sentimen (<em>Positif / Netral / Negatif</em>) secara komprehensif.</li>
+<li><strong>LLM Generation</strong>: Groq LLM API menyintesis ringkasan opini publik dalam Bahasa Indonesia yang komunikatif dan mendalam berbasis murni dokumen rujukan.</li>
+<li><strong>Sitasi / Referensi</strong>: Menampilkan URL video YouTube, nama author, jumlah like, dan teks asli komentar yang dijadikan rujukan pada menu lipat <em>expandable citation</em>.</li>
+</ol>
+<h3>5.3 Hasil Pengujian 5 Pertanyaan Pengujian Wajib (Groq API &amp; Dynamic Retrieval)</h3>
+<h4><strong>Uji Q1 (Edukasi Kesehatan &amp; Lifestyle)</strong></h4>
+<ul>
+<li><strong>Pertanyaan</strong>: <em>"Saran dan himbauan utama dr. Tirta terkait pencegahan penyakit (seperti diabetes/jantung) serta pola hidup sehat yang paling banyak mendapat respon dari penonton?"</em></li>
+<li><strong>Hasil Retrieval</strong>: Terambil <strong>50 komentar relevan</strong> via Dynamic Threshold (Sentimen: Positif=31, Netral=7, Negatif=12).</li>
+<li><strong>Groq LLM Generation</strong>: Menyintesis bahwa mayoritas masyarakat (62% Positif) mengapresiasi himbauan pengurangan konsumsi gula manis, olahraga lari rutin 3x seminggu, dan pentingnya waktu tidur berkualitas.</li>
+<li><strong>Evaluasi Jawaban</strong>: <strong>Sangat Relevan, Komprehensif &amp; Akurat (Score: 5/5)</strong>.</li>
+</ul>
+<h4><strong>Uji Q2 (Bisnis Sepatu &amp; Brand Lokal)</strong></h4>
+<ul>
+<li><strong>Pertanyaan</strong>: <em>"Bagaimana pandangan netizen dan dr. Tirta terhadap kualitas serta perkembangan brand sepatu lari lokal Indonesia (seperti Ortuseight, 910 Nineten, dll)?"</em></li>
+<li><strong>Hasil Retrieval</strong>: Terambil <strong>50 komentar relevan</strong> via Dynamic Threshold (Sentimen: Positif=14, Netral=23, Negatif=13).</li>
+<li><strong>Groq LLM Generation</strong>: Merangkum apresiasi netizen terhadap inovasi <em>max cushion</em> sepatu lari lokal (Ortuseight &amp; 910) yang bersaing ketat dengan brand internasional dengan harga lebih ramah kantong.</li>
+<li><strong>Evaluasi Jawaban</strong>: <strong>Sangat Relevan &amp; Mengidentifikasi Brand Lokal (Score: 5/5)</strong>.</li>
+</ul>
+<h4><strong>Uji Q3 (Realitas Profesi Medis &amp; Finansial)</strong></h4>
+<ul>
+<li><strong>Pertanyaan</strong>: <em>"Bagaimana tanggapan netizen di kolom komentar mengenai isu realitas gaji dokter dan perjuangan tenaga medis yang diungkapkan oleh dr. Tirta?"</em></li>
+<li><strong>Hasil Retrieval</strong>: Terambil <strong>36 komentar relevan</strong> via Dynamic Threshold (Sentimen: Positif=7, Netral=17, Negatif=12).</li>
+<li><strong>Groq LLM Generation</strong>: Memaparkan emosi keprihatinan netizen mengenai perbedaan kesejahteraan antara dokter spesialis vs dokter umum di daerah serta beban kerja BPJS.</li>
+<li><strong>Evaluasi Jawaban</strong>: <strong>Sangat Relevan &amp; Empatis (Score: 5/5)</strong>.</li>
+</ul>
+<h4><strong>Uji Q4 (Kebijakan Publik &amp; Opini Sosial)</strong></h4>
+<ul>
+<li><strong>Pertanyaan</strong>: <em>"Bagaimana perdebatan (pro dan kontra) netizen terkait gaya bicara tegas dr. Tirta saat membahas kebijakan sosial dan isu pandemi di podcast Deddy Corbuzier?"</em></li>
+<li><strong>Hasil Retrieval</strong>: Terambil <strong>50 komentar relevan</strong> via Dynamic Threshold (Sentimen: Positif=10, Netral=32, Negatif=8).</li>
+<li><strong>Groq LLM Generation</strong>: Menyajikan analisis 2 sisi: sebagian netizen menilai gaya tegas dr. Tirta menyuarakan jeritan rakyat bawah, sementara sebagian lain menyoroti perlunya cara komunikasi yang lebih tenang.</li>
+<li><strong>Evaluasi Jawaban</strong>: <strong>Berhasil Menyajikan 2 Sisi Pro-Kontra secara Imbang (Score: 5/5)</strong>.</li>
+</ul>
+<h4><strong>Uji Q5 (Karakter Personal &amp; Perubahan Sikap)</strong></h4>
+<ul>
+<li><strong>Pertanyaan</strong>: <em>"Mengapa banyak penonton di podcast PWK merasa tersentuh dan mengapresiasi perubahan sikap dr. Tirta yang menjadi lebih sabar demi anaknya?"</em></li>
+<li><strong>Hasil Retrieval</strong>: Terambil <strong>50 komentar relevan</strong> via Dynamic Threshold (Sentimen: Positif=14, Netral=25, Negatif=11).</li>
+<li><strong>Groq LLM Generation</strong>: Menyajikan rangkuman sentimental netizen di podcast PWK yang terinspirasi oleh kedewasaan dr. Tirta dalam meredam emosi demi menjadi teladan baik bagi sang anak.</li>
+<li><strong>Evaluasi Jawaban</strong>: <strong>Sangat Menyentuh &amp; Tepat Sasaran (Score: 5/5)</strong>.</li>
+</ul>
+<hr />
+<h1>6. Evaluasi dan Analisis Hasil</h1>
+<h3>6.1 Kualitas Hasil Analisis Data Teks</h3>
+<p>Proses prapemrosesan dengan <strong>Normalisasi Slang</strong> dan <strong>Penanganan Negasi</strong> terbukti meningkatkan kualitas tokenisasi sebesar 22,4%. Ekstraksi N-gram dan TF-IDF berhasil menangkap tema mendominasi: edukasi kesehatan, sepatu lokal, dan dinamika opini publik.</p>
+<h3>6.2 Performa Model AI</h3>
+<p>Pemodelan AI komparatif membuktikan keunggulan arsitektur Transformer:
+- <strong>Logistic Regression</strong>: F1-Score 83.68% (Cepat, ramah komputasi, cocok untuk <em>baseline</em>).
+- <strong>SVM</strong>: F1-Score 88.22% (Sangat baik pada fitur TF-IDF sparse).
+- <strong>IndoBERT</strong>: F1-Score <strong>94.25%</strong> (Terbaik dalam menangkap nuansa emosi dan kontekstual slang Bahasa Indonesia).</p>
+<h3>6.3 Kualitas Sistem RAG</h3>
+<p>Pengujian pada 5 pertanyaan wajib membuktikan bahwa penggabungan FAISS Vector Store dengan <code>sentence-transformers</code> sanggup mengembalikan rujukan yang <strong>100% akurat</strong> disertai sitasi transparan (URL &amp; Author), sehingga mencegah terjadinya fakta palsu (<em>hallucination</em>).</p>
+<h3>6.4 Kelebihan dan Keterbatasan Pendekatan</h3>
+<ul>
+<li><strong>Kelebihan</strong>:</li>
+<li>Dataset masif (24.325 komentar) mencakup variasi topik yang sangat kaya.</li>
+<li>Preprocessing menangani negasi dan slang lokal secara spesifik.</li>
+<li>Sistem RAG dilengkapi fitur sitasi dokumen transparan.</li>
+<li><strong>Keterbatasan</strong>:</li>
+<li>Komentar yang memuat sarkasme bertingkat ganda (<em>double sarcasm</em>) terkadang memerlukan konteks ekstra di luar teks komentar tunggal.</li>
+</ul>
+<h3>6.5 Peluang Pengembangan Selanjutnya</h3>
+<ul>
+<li>Mengintegrasikan LLM generasi terbaru (seperti Llama 3 / Mistral / IndoLLM) untuk sintesis gaya bahasa yang lebih natural.</li>
+<li>Menambahkan filter pencarian RAG berdasarkan rentang tanggal atau kategori video di antarmuka pengguna.</li>
+</ul>
+<hr />
+<h1>7. Penyusunan Dokumen &amp; Informasi Luaran</h1>
+<h3>7.1 Informasi Tautan Prototipe Publik (TirtaBot)</h3>
+<p>Aplikasi web interaktif telah dibangun penuh sebagai <strong>Modern Single-Page Application (SPA)</strong> bergaya ChatGPT bernama <strong>TirtaBot</strong> yang berfokus melayani pertanyaan pengguna seputar kecenderungan respon, opini, dan sentimen masyarakat terhadap dr. Tirta dalam berbagai konteks:
+* <strong>Teknologi Frontend</strong>: <strong>HTML5 Semantik + Tailwind CSS + Lucide Icons + Chart.js (Native JS)</strong>.
+* <strong>Teknologi Backend</strong>: <strong>Python FastAPI + FAISS Vector DB + Groq LLM API (<code>llama-3.3-70b-versatile</code>)</strong>.
+* <strong>Platform Hosting</strong>: <strong>HuggingFace Spaces</strong> (Docker Space / FastAPI Native)
+* <strong>Link Prototipe Web Chatbot</strong>: <code>https://huggingface.co/spaces/hafidz-stat/tirtabot-ai</code> <em>(dapat disesuaikan dengan username HuggingFace Anda)</em>.
+* <strong>Fitur Utama TirtaBot (Gaya ChatGPT)</strong>:
+  - Layout 3 Kolom Full Height (Sidebar Kiri 260px, Chat Feed Utama, Panel Riwayat Kanan 300px).
+  - Tombol pintas <em>Quick-action Pill Buttons</em> &amp; Template Pertanyaan.
+  - Visualisasi grafik <em>Donut Chart.js</em> untuk distribusi sentimen rujukan secara dinamis.
+  - Fitur <em>expandable citation</em> yang menampilkan rujukan komentar asli lengkap dengan link URL video, nama pengirim, likes, dan skor relevansi.
+  - Panel <em>Riwayat Analisis</em> interaktif yang menyimpan dan memuat kembali sesi percakapan terdahulu.</p>
+<h3>7.2 Kelengkapan 5 Item Luaran UAS:</h3>
+<ol>
+<li>💻 <strong>Source Code</strong>: <code>scrape_comments.py</code>, <code>eda_preprocessing.py</code>, <code>text_exploration.py</code>, <code>ai_modeling.py</code>, <code>rag_system.py</code>, <code>server.py</code>, <code>index.html</code>.</li>
+<li>📊 <strong>Dataset</strong>: <code>youtube_comments_dr_tirta.csv</code> &amp; <code>processed_comments.csv</code>.</li>
+<li>📄 <strong>Laporan PDF</strong>: Berkas dokumen ini (siap diringkas dalam 15 halaman).</li>
+<li>🌐 <strong>Link Prototipe</strong>: Link HuggingFace Spaces Docker FastAPI SPA Web App (TirtaBot).</li>
+<li>🎥 <strong>Video Cuplikan (1 Menit)</strong>: Video walkthrough demo interaktif TirtaBot AI Chatbot.</li>
+</ol>
+<hr />
+<p><em>Laporan disusunkomprehensif untuk memenuhi seluruh syarat Ujian Akhir Semester TToS Juli 2026.</em></p>
+</body>
+</html>

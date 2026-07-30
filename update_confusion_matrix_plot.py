@@ -49,19 +49,19 @@ plt.figure(figsize=(18, 5.5))
 
 plt.subplot(1, 3, 1)
 sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Blues', xticklabels=labels_order, yticklabels=labels_order, cbar=False, annot_kws={"size": 11, "weight": "bold"})
-plt.title('1. Logistic Regression (Baseline)\nAccuracy: 74.61% | F1: 74.55%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
+plt.title('Logistic Regression (Baseline)\nAccuracy: 74.61% | F1: 74.55%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
 plt.xlabel('Predicted Label', fontweight='bold', fontsize=10)
 plt.ylabel('True Label', fontweight='bold', fontsize=10)
 
 plt.subplot(1, 3, 2)
 sns.heatmap(cm_svm, annot=True, fmt='d', cmap='Greens', xticklabels=labels_order, yticklabels=labels_order, cbar=False, annot_kws={"size": 11, "weight": "bold"})
-plt.title('2. Support Vector Machine (SVM)\nAccuracy: 74.75% | F1: 74.70%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
+plt.title('Support Vector Machine (SVM)\nAccuracy: 74.75% | F1: 74.70%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
 plt.xlabel('Predicted Label', fontweight='bold', fontsize=10)
 plt.ylabel('True Label', fontweight='bold', fontsize=10)
 
 plt.subplot(1, 3, 3)
 sns.heatmap(cm_bert, annot=True, fmt='d', cmap='Purples', xticklabels=labels_order, yticklabels=labels_order, cbar=False, annot_kws={"size": 11, "weight": "bold"})
-plt.title('3. IndoBERT Transformer (SOTA)\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#0EA5B7')
+plt.title('IndoBERT Transformer (SOTA)\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
 plt.xlabel('Predicted Label', fontweight='bold', fontsize=10)
 plt.ylabel('True Label', fontweight='bold', fontsize=10)
 

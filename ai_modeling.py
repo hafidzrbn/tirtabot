@@ -161,13 +161,13 @@ def main():
     
     cm_lr = confusion_matrix(y_test, y_pred_lr, labels=labels_order)
     sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Blues', xticklabels=labels_order, yticklabels=labels_order, cbar=False, ax=axes[0], annot_kws={"size": 11, "weight": "bold"})
-    axes[0].set_title('1. Logistic Regression (Baseline)\nAccuracy: 74.61% | F1: 74.55%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
+    axes[0].set_title('Logistic Regression (Baseline)\nAccuracy: 74.61% | F1: 74.55%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
     axes[0].set_xlabel('Predicted Label', fontweight='bold', fontsize=10)
     axes[0].set_ylabel('True Label', fontweight='bold', fontsize=10)
     
     cm_svm = confusion_matrix(y_test, y_pred_svm, labels=labels_order)
     sns.heatmap(cm_svm, annot=True, fmt='d', cmap='Greens', xticklabels=labels_order, yticklabels=labels_order, cbar=False, ax=axes[1], annot_kws={"size": 11, "weight": "bold"})
-    axes[1].set_title('2. Support Vector Machine (SVM)\nAccuracy: 74.75% | F1: 74.70%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
+    axes[1].set_title('Support Vector Machine (SVM)\nAccuracy: 74.75% | F1: 74.70%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
     axes[1].set_xlabel('Predicted Label', fontweight='bold', fontsize=10)
     axes[1].set_ylabel('True Label', fontweight='bold', fontsize=10)
 
@@ -177,7 +177,7 @@ def main():
         [  48,   45, 1408]
     ])
     sns.heatmap(cm_bert, annot=True, fmt='d', cmap='Purples', xticklabels=labels_order, yticklabels=labels_order, cbar=False, ax=axes[2], annot_kws={"size": 11, "weight": "bold"})
-    axes[2].set_title('3. IndoBERT Transformer (SOTA)\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#0EA5B7')
+    axes[2].set_title('IndoBERT Transformer (SOTA)\nAccuracy: 94.20% | F1: 94.25%', fontsize=12, fontweight='bold', pad=12, color='#1e293b')
     axes[2].set_xlabel('Predicted Label', fontweight='bold', fontsize=10)
     axes[2].set_ylabel('True Label', fontweight='bold', fontsize=10)
     

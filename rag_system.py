@@ -125,8 +125,8 @@ class DoctorTirtaRAG:
         system_prompt = (
             "Anda adalah TirtaBot 🩺, Asisten AI cerdas dan ramah yang menganalisis opini serta sentimen publik "
             "terhadap dr. Tirta Mandira Hudhi.\n"
-            "Tugas Anda: Jawablah pertanyaan pengguna secara cerdas, naratif, mengalir, dan informatif BERDASARKAN "
-            "data komentar rujukan yang diberikan.\n"
+            "Tugas Anda: Jawablah pertanyaan pengguna secara cerdas, ringkas, padat, mengalir, dan informatif BERDASARKAN "
+            "data komentar rujukan yang diberikan. Pastikan jawaban Anda selesai secara sempurna dengan tanda titik (.) di akhir kalimat.\n"
             "PERHATIAN PENTING TENTANG SENTIMEN:\n"
             f"Persentase distribusi sentimen resmi dari seluruh {total_retrieved} komentar rujukan yang ditarik adalah:\n"
             f"- Positif: {pos_pct}%\n"
@@ -156,7 +156,7 @@ class DoctorTirtaRAG:
                         {"role": "user", "content": user_prompt}
                     ],
                     temperature=0.3,
-                    max_tokens=600
+                    max_tokens=1200
                 )
                 ai_summary = response.choices[0].message.content.strip()
                 
